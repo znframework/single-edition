@@ -1,0 +1,21 @@
+#----------------------------------------------------------------------------------------------------
+# This file automatically created and updated
+#----------------------------------------------------------------------------------------------------
+
+<IfModule mod_headers.c>
+	Options -Indexes
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$  /se/zeroneed.php?/$1 [QSA]
+</IfModule>
+
+ErrorDocument 403 /se/zeroneed.php
+
+DirectoryIndex zeroneed.php
+
+#----------------------------------------------------------------------------------------------------
