@@ -47,13 +47,13 @@ define('REAL_BASE_DIR', realpath(__DIR__) . DS);
 chdir(REAL_BASE_DIR);
 
 //--------------------------------------------------------------------------------------------------
-// INTERNAL_DIR
+// CORE_DIR
 //--------------------------------------------------------------------------------------------------
 //
 // @return Internal/
 //
 //--------------------------------------------------------------------------------------------------
-define('INTERNAL_DIR', REAL_BASE_DIR . 'Internal' . DS);
+define('RESOURCES_DIR', 'Resources' . DS);
 
 //--------------------------------------------------------------------------------------------------
 // CORE_DIR
@@ -62,7 +62,7 @@ define('INTERNAL_DIR', REAL_BASE_DIR . 'Internal' . DS);
 // @return Internal/
 //
 //--------------------------------------------------------------------------------------------------
-define('CORE_DIR', INTERNAL_DIR . 'Core' . DS);
+define('CORE_DIR', RESOURCES_DIR . 'Core' . DS);
 
 //--------------------------------------------------------------------------------------------------
 // PRIORITY_LEVELS
@@ -80,7 +80,7 @@ define('PRIORITY_LEVELS', CORE_DIR . 'PriorityLevels.php');
 // @return Internal/Core/Priority
 //
 //--------------------------------------------------------------------------------------------------
-define('PRIORITY_DIR', INTERNAL_DIR . 'Priority' . DS);
+define('PRIORITY_DIR', RESOURCES_DIR . 'Priority' . DS);
 
 //--------------------------------------------------------------------------------------------------
 // Core File
