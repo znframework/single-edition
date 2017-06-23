@@ -147,7 +147,6 @@ class Zerocore
             'run-model               run-model model:function p1 p2 ... pN',
             'run-class               run-class class:function p1 p2 ... pN',
             'run-command             run-command command:function p1 p2 ...pN',
-            'run-external-command    run-command command:function p1 p2 ...pN',
             'run-function            run-function function p1 p2 ... pN'
         ]);
 

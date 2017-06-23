@@ -1,6 +1,6 @@
 <?php namespace ZN\IndividualStructures;
 
-use CLController, Arrays;
+use CLController, Arrays, URL, IS;
 use ZN\IndividualStructures\Socialite\Exception\InvalidArgumentException;
 
 class InternalSocialite extends CLController implements InternalSocialiteInterface
@@ -51,15 +51,15 @@ class InternalSocialite extends CLController implements InternalSocialiteInterfa
         // Default Callback Value: Current URL
         if( ! isset($parameters['callback']) )
         {
-            $parameters['callback'] = currentUrl();
+            $parameters['callback'] = URL::current();
         }
         else
         {
-            $parameters['callback'] = isUrl($parameters['callback'])
+            $parameters['callback'] = IS::url($parameters['callback'])
                                     ? $parameters['callback']
-                                    : siteUrl($parameters['callback']);
+                                    : URL::site($parameters['callback']);
         }
-    
+
         return new $social($parameters);
     }
 }

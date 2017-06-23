@@ -57,14 +57,7 @@ class Config
         {
             $projectPath  = CONFIG_DIR.suffix($file,".php");
 
-            $allConfig    = [];
-
-            if( is_file($projectPath) )
-            {
-                $allConfig = array_merge($allConfig, (array) import($projectPath));
-            }
-
-            self::$config[$file] = $allConfig;
+            self::$config[$file] = (array) import($projectPath);
         }
     }
 
