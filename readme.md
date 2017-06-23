@@ -9,6 +9,5 @@ It is very easy access to objects. <br />
 Easy integration of internal and external structure.<br />
 It is also flexible.<br />
 PHP versions 7.0.0 + are supported.<br />
-It is complied with PSR standarts and contains exclusively.<br />
-ZN Framework is suitable for Multiple Application Development.
+It is complied with PSR standarts and contains exclusively.
 </p>
