@@ -1,8 +1,8 @@
 <?php namespace ZN\DataTypes;
 
-use Arrays, CLController;
+use Arrays;
 
-class InternalRegex extends CLController implements InternalRegexInterface
+class InternalRegex implements InternalRegexInterface
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -13,7 +13,82 @@ class InternalRegex extends CLController implements InternalRegexInterface
     //
     //--------------------------------------------------------------------------------------------------------
 
-    const config = 'Regex';
+    //--------------------------------------------------------------------------------------------------------
+    // Regex Chars
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // Genel Kullanımı: Düzenli ifadelerde yer alan özel karakterlerle ilgili aşağıdaki
+    // değişiklikler yapılmıştır.
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected $regexChars =
+    [
+        // Patterns For Routes
+        ':numeric'     => '(\d+$)',
+        ':alnum'       => '(\w+$)',
+        ':alpha'       => '([A-z]+$)',
+        ':all'         => '(.+)',
+        ':seo'         => '((\w+|\-)+$)',
+
+        '{nonWord}'    => '\W+',
+        '{word}'       => '\w+',
+        '{nonNumeric}' => '\D',
+        '{numeric}'    => '\d',
+        '{schar}'      => '\W',
+        '{nonSchar}'   => '\w',
+        '{char}'       => '.',
+        '{nonSpace}'   => '\S',
+        '{space}'      => '\s',
+        '{starting}'   => '^',
+        '{ending}'     => '$',
+        '{repeatZ}'    => '*',
+        '{repeat}'     => '+',
+        '{whether}'    => '?',
+        '{or}'         => '|',
+        '{eolR}'       => '\r',
+        '{eolN}'       => '\n',
+        '{eol}'        => '\r\n',
+        '{tab}'        => '\t',
+        '{esc}'        => '\e',
+        '{hex}'        => '\x'
+    ];
+
+    //--------------------------------------------------------------------------------------------------------
+    // Setting Chars
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // Genel Kullanımı: Düzenli ifadelerde oluşturulan desen sonuna konulan karakterlerle
+    // ilgili aşağıdaki değişiklikler yapılmıştır
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected $settingChars =
+    [
+        '{insens}'    => 'i',
+        '{generic}'   => 'g',
+        '{each}'      => 's',
+        '{multiline}' => 'm',
+        '{inspace}'   => 'x'
+    ];
+
+    //--------------------------------------------------------------------------------------------------------
+    // Special Chars
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // Genel Kullanımı: Düzenli ifadelerde yer alan özel karakterleri normal karakterler gibi
+    // kullanmak için aşağıdaki değişiklikler yapılmıştır.
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected $specialChars =
+    [
+        '.' => '\.',
+        '^' => '\^',
+        '$' => '\$',
+        '*' => '\*',
+        '+' => '\+',
+        '?' => '\?',
+        '|' => '\|',
+        '/' => '\/'
+    ];
 
     //--------------------------------------------------------------------------------------------------------
     // Special 2 Classic -> 4.3.2
@@ -40,9 +115,9 @@ class InternalRegex extends CLController implements InternalRegexInterface
     //--------------------------------------------------------------------------------------------------------
     public function classic2special(String $pattern, String $delimiter = '/') : String
     {
-        $specialChars = REGEX_CONFIG['specialChars'];
-        $regexChars   = Arrays::multikey(REGEX_CONFIG['regexChars']);
-        $settingChars = Arrays::multikey(REGEX_CONFIG['settingChars']);
+        $specialChars = $this->specialChars;
+        $regexChars   = Arrays::multikey($this->regexChars);
+        $settingChars = Arrays::multikey($this->settingChars);
         $pattern      = str_ireplace(array_values($regexChars), array_keys($regexChars), $pattern);
         $pattern      = str_ireplace(array_values($specialChars), array_keys($specialChars), $pattern);
 
@@ -159,15 +234,15 @@ class InternalRegex extends CLController implements InternalRegexInterface
     //--------------------------------------------------------------------------------------------------------
     protected function _regularConverting($pattern, $ex, $delimiter)
     {
-        $specialChars = REGEX_CONFIG['specialChars'];
+        $specialChars = $this->specialChars;
 
         $pattern = str_ireplace(array_keys($specialChars), array_values($specialChars), $pattern);
 
         // Config/Regex.php dosyasından düzenlenmiş karakter
         // listeleri alınıyor.
-        $regexChars   = Arrays::multikey(REGEX_CONFIG['regexChars']);
+        $regexChars   = Arrays::multikey($this->regexChars);
 
-        $settingChars = Arrays::multikey(REGEX_CONFIG['settingChars']);
+        $settingChars = Arrays::multikey($this->settingChars);
         // --------------------------------------------------------------------------------------------
 
         $pattern = str_ireplace(array_keys($regexChars), array_values($regexChars), $pattern);

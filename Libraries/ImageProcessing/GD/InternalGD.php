@@ -1296,7 +1296,7 @@ class InternalGD extends CallController implements InternalGDInterface
     {
         // Renkler küçük isimlerle yazılmıştır.
         $rgb    = strtolower($rgb);
-        $colors = Config::get('Colors');
+        $colors = Properties::$colors;
 
         if( isset($colors[$rgb]) )
         {

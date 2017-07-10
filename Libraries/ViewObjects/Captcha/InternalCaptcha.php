@@ -510,7 +510,7 @@ class InternalCaptcha extends CLController implements InternalCaptchaInterface
     //--------------------------------------------------------------------------------------------------------
     protected function _convertColor($color)
     {
-        if( $convert = Config::get('Colors', $color) )
+        if( $convert = (\ZN\ImageProcessing\Properties::$colors[$color] ?? NULL) )
         {
             return $convert;
         }

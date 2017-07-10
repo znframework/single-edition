@@ -27,7 +27,7 @@ class NastyCode extends SecurityExtends
         // 2. Parametre boş ise varsayılan olarak Config/Security.php dosya ayarlarını kullan.
         if( empty($badWords) )
         {
-            $secnc      = INDIVIDUALSTRUCTURES_SECURITY_CONFIG['ncEncode'];
+            $secnc      = Properties::$ncEncode;
             $badWords   = $secnc['badChars'];
             $changeChar = $secnc['changeBadChars'];
         }

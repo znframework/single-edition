@@ -774,8 +774,13 @@ class InternalEmail extends CLController implements InternalEmailInterface
     //--------------------------------------------------------------------------------------------------------
     public function attachment(String $file, String $disposition = NULL, String $newName = NULL, $mime = NULL) : InternalEmail
     {
-        $mimeTypes = Config::get('MimeTypes');
-        $mime      = $mimeTypes[$mime] ?? $mime;
+        if( $mime !== NULL )
+        {
+            if( $mimes = \Mime::$mime() )
+            {
+                $mime = $mimes;
+            }
+        }
 
         if( is_array($mime) )
         {

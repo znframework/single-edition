@@ -33,7 +33,7 @@ class Injection extends SecurityExtends
     //--------------------------------------------------------------------------------------------------------
     public function encode(String $string) : String
     {
-        $secBadChars = INDIVIDUALSTRUCTURES_SECURITY_CONFIG['injectionBadChars'];
+        $secBadChars = Properties::$injectionBadChars;
 
         if( ! empty($secBadChars) )
         {

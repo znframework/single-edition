@@ -41,6 +41,11 @@ class Font extends BootstrapExtends
 
             $fontFile = FONTS_DIR.$font;
 
+            if( ! is_file($fontFile) )
+            {
+                $fontFile = EXTERNAL_FONTS_DIR.$font;
+            }
+
             $baseUrl  = URL::base($fontFile);
 
             if( File::extension($fontFile) )
@@ -85,7 +90,7 @@ class Font extends BootstrapExtends
             }
 
             // FARKLI FONTLAR
-            $differentSet = Config::get('ViewObjects', 'font')['differentFontExtensions'];
+            $differentSet = Properties::$differentFontExtensions;
 
             if( ! empty($differentSet) )
             {

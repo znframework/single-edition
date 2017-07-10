@@ -104,6 +104,12 @@ class Package
         $eol    = EOL;
         $return = '';
 
+        // Common Directory
+        if( ! is_dir($packages) && ! is_file($packages) )
+        {
+            $packages = str_replace(RESOURCES_DIR, EXTERNAL_RESOURCES_DIR, $packages);
+        }
+
         if( Folder::exists($packages) )
         {
             $packageFiles = Folder::allFiles(suffix($packages), $recursive);

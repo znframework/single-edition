@@ -56,6 +56,19 @@ trait SheetTrait
     //--------------------------------------------------------------------------------------------------------
     protected $tag = false;
 
+    //----------------------------------------------------------------------------------------------
+    // Browser List
+    //----------------------------------------------------------------------------------------------
+    //
+    // Genel Kullanım: Css3 kütüphanesi ile ilgili gerekli ayarları içerir.
+    // Aşağıda css3 komutlarının uygulanacağı tarayıcı listesi mevcuttur.
+    // Aşağıda boş bir eleman girilmesinin nedeni tarayıcılar dışında standart css3 komutlarını
+    // da kullanması içindir.
+    // Örnek: box-shadow, -ms-box-shadow, -moz-box-shadow, -webkit-box-shadow
+    //
+    //----------------------------------------------------------------------------------------------
+    protected $browserList = ['', '-o-', '-ms-', '-moz-', '-webkit-'];
+
     //--------------------------------------------------------------------------------------------------------
     // Construct
     //--------------------------------------------------------------------------------------------------------
@@ -65,7 +78,7 @@ trait SheetTrait
     //--------------------------------------------------------------------------------------------------------
     public function __construct($tag = false)
     {
-        $this->browsers = \Config::get('ViewObjects', 'css3')['browsers'];
+        $this->browsers = $this->browserList;
 
         $this->tag = $tag;
     }

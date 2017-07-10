@@ -157,7 +157,7 @@ class Masterpage
         $headPage           = $head['headPage'] ?? $masterPageSet['headPage'];
 
         $docType        = $head['docType'] ?? $masterPageSet["docType"];
-        $header         = Config::get('ViewObjects', 'doctype')[$docType].$eol;
+        $header         = (Properties::$doctype[$docType] ?? '<!DOCTYPE html>') . $eol;
         $htmlAttributes = $head['attributes']['html'] ?? $masterPageSet['attributes']['html'];
 
         $header .= '<html xmlns="http://www.w3.org/1999/xhtml"'.Html::attributes($htmlAttributes).'>'.$eol;

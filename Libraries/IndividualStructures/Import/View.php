@@ -2,7 +2,6 @@
 
 use File;
 use ZN\ViewObjects\TemplateWizard;
-use ZN\IndividualStructures\Import\Exception\FileNotFoundException;
 
 class View
 {
@@ -96,7 +95,7 @@ class View
         }
         else
         {
-            throw new FileNotFoundException('Error', 'fileNotFound', $randomPageVariable);
+            return false;
         }
     }
 

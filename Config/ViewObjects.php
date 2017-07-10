@@ -360,51 +360,6 @@
     ],
 
     //--------------------------------------------------------------------------------------------------
-    // Css3
-    //--------------------------------------------------------------------------------------------------
-    //
-    // Genel Kullanım: Css3 kütüphanesi ile ilgili gerekli ayarları içerir.
-    //
-    //--------------------------------------------------------------------------------------------------
-    'css3' =>
-    [
-        //----------------------------------------------------------------------------------------------
-        // Browser
-        //----------------------------------------------------------------------------------------------
-        //
-        // Genel Kullanım: Css3 kütüphanesi ile ilgili gerekli ayarları içerir.
-        // Aşağıda css3 komutlarının uygulanacağı tarayıcı listesi mevcuttur.
-        // Aşağıda boş bir eleman girilmesinin nedeni tarayıcılar dışında standart css3 komutlarını
-        // da kullanması içindir.
-        // Örnek: box-shadow, -ms-box-shadow, -moz-box-shadow, -webkit-box-shadow
-        //
-        //----------------------------------------------------------------------------------------------
-        'browsers' => ['', '-o-', '-ms-', '-moz-', '-webkit-']
-    ],
-
-    //--------------------------------------------------------------------------------------------------
-    // Font
-    //--------------------------------------------------------------------------------------------------
-    //
-    // Genel Kullanım: Fontlarla ilgili ayarlar yer alır.
-    //
-    //--------------------------------------------------------------------------------------------------
-    'font' =>
-    [
-        //----------------------------------------------------------------------------------------------
-        // Different Font Extensions
-        //----------------------------------------------------------------------------------------------
-        //
-        // Genel Kullanım: SVG, WOFF, EOT, OTF, TTF uzantılı fontlar dışında başka bir uzantılı
-        // font kullanacaksınız aşağıdaki diziye eklemeniz gerekmektedir. Uzantı başında (.) nokta
-        // karakteri kullanmanıza gerek yoktur. Örnek array('ufo', 'fon') şeklinde yazmanız
-        // yeterlidir.
-        //
-        //----------------------------------------------------------------------------------------------
-        'differentFontExtensions' => []
-    ],
-
-    //--------------------------------------------------------------------------------------------------
     // Cdn
     //--------------------------------------------------------------------------------------------------
     //
@@ -533,24 +488,5 @@
         [
             // 'file1' => 'http://xx.xx.xxx/files/file1.txt'
         ]
-    ],
-
-    //--------------------------------------------------------------------------------------------------
-    // Doctype
-    //--------------------------------------------------------------------------------------------------
-    //
-    // Genel Kullanım: Döküman türleri listesi.
-    //
-    //--------------------------------------------------------------------------------------------------
-    'doctype' =>
-    [
-        'xhtml1Strict'          => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//TR" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
-        'xhtml1Transitional'    => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//TR" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
-        'xhtml1Frameset'        => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//TR" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">',
-        'xhtml11'               => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//TR" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
-        'html4Strict'           => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//TR" "http://www.w3.org/TR/html4/strict.dtd">',
-        'html4Transitional'     => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//TR" "http://www.w3.org/TR/html4/loose.dtd">',
-        'html4Frameset'         => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//TR" "http://www.w3.org/TR/html4/frameset.dtd">',
-        'html5'                 => '<!DOCTYPE html>'
     ]
 ];
