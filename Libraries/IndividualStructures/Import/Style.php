@@ -38,11 +38,6 @@ class Style extends BootstrapExtends
 
             $styleFile = STYLES_DIR.suffix($style,".css");
 
-            if( ! is_file($styleFile) )
-            {
-                $styleFile = EXTERNAL_STYLES_DIR.suffix($style, ".css");
-            }
-
             if( ! in_array("style_".$style, Properties::$isImport) )
             {
                 if( is_file($styleFile) )

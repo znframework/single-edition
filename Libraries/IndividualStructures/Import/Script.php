@@ -38,11 +38,6 @@ class Script extends BootstrapExtends
 
             $scriptFile = SCRIPTS_DIR.suffix($script, ".js");
 
-            if( ! is_file($scriptFile) )
-            {
-                $scriptFile = EXTERNAL_SCRIPTS_DIR.suffix($script, ".js");
-            }
-
             if( ! in_array("script_".$script, Properties::$isImport) )
             {
                 if( is_file($scriptFile) )

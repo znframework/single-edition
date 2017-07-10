@@ -41,11 +41,6 @@ class Font extends BootstrapExtends
 
             $fontFile = FONTS_DIR.$font;
 
-            if( ! is_file($fontFile) )
-            {
-                $fontFile = EXTERNAL_FONTS_DIR.$font;
-            }
-
             $baseUrl  = URL::base($fontFile);
 
             if( File::extension($fontFile) )
