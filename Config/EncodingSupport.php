@@ -1,4 +1,4 @@
-<?php return
+<?php $lang = lang('EncodingSupport'); return
 [
     //--------------------------------------------------------------------------------------------------
     // Encoding Support
@@ -38,10 +38,10 @@
             //------------------------------------------------------------------------------------------
             'labels' =>
             [
-                'title'     => lang('EncodingSupport', 'ml:titleLabel'),
-                'confirm'   => lang('EncodingSupport', 'ml:confirmLabel'),
-                'process'   => lang('EncodingSupport', 'ml:processLabel'),
-                'keywords'  => lang('EncodingSupport', 'ml:keywordsLabel'),
+                'title'     => $lang['ml:titleLabel'],
+                'confirm'   => $lang['ml:confirmLabel'],
+                'process'   => $lang['ml:processLabel'],
+                'keywords'  => $lang['ml:keywordsLabel'],
             ],
 
             //------------------------------------------------------------------------------------------
@@ -53,11 +53,11 @@
             //------------------------------------------------------------------------------------------
             'buttonNames' =>
             [
-                'add'           => lang('EncodingSupport', 'ml:addButton'),
-                'update'        => lang('EncodingSupport', 'ml:updateButton'),
-                'delete'        => lang('EncodingSupport', 'ml:deleteButton'),
-                'clear'         => lang('EncodingSupport', 'ml:clearButton'),
-                'search'        => lang('EncodingSupport', 'ml:searchButton')
+                'add'           => $lang['ml:addButton'],
+                'update'        => $lang['ml:updateButton'],
+                'delete'        => $lang['ml:deleteButton'],
+                'clear'         => $lang['ml:clearButton'],
+                'search'        => $lang['ml:searchButton']
             ],
 
             //------------------------------------------------------------------------------------------
@@ -70,9 +70,9 @@
             //------------------------------------------------------------------------------------------
             'placeHolders' =>
             [
-                'keyword'     => lang('EncodingSupport', 'ml:keywordPlaceHolder'),
-                'addLanguage' => lang('EncodingSupport', 'ml:addLanguagePlaceHolder'),
-                'search'      => lang('EncodingSupport', 'ml:searchPlaceHolder')
+                'keyword'     => $lang['ml:keywordPlaceHolder'],
+                'addLanguage' => $lang['ml:addLanguagePlaceHolder'],
+                'search'      => $lang['ml:searchPlaceHolder']
             ],
 
             //----------------------------------------------------------------------------------------------
