@@ -36,10 +36,15 @@ class Font extends BootstrapExtends
                 $font = '';
             }
 
-            $f = divide($font, "/", -1);
+            $f = \Strings::divide($font, "/", -1);
             // SVG IE VE MOZILLA DESTEKLEMIYOR
 
             $fontFile = FONTS_DIR.$font;
+
+            if( ! is_file($fontFile) )
+            {
+                $fontFile = EXTERNAL_FONTS_DIR.$font;
+            }
 
             $baseUrl  = URL::base($fontFile);
 
@@ -81,7 +86,7 @@ class Font extends BootstrapExtends
 
             if( ! empty($cndFont) )
             {
-                $str .= '@font-face{font-family:"'.divide(File::removeExtension($cndFont), "/", -1).'"; src:url("'.$cndFont.'") format("truetype")}'.$eol;
+                $str .= '@font-face{font-family:"'.\Strings::divide(File::removeExtension($cndFont), "/", -1).'"; src:url("'.$cndFont.'") format("truetype")}'.$eol;
             }
 
             // FARKLI FONTLAR

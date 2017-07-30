@@ -236,6 +236,11 @@ class InternalProcessor extends RemoteCommon implements InternalProcessorInterfa
         $path = File::originpath($path);
         $file = $this->processorPath.$path;
 
+        if( ! is_file($file) )
+        {
+            $file = EXTERNAL_PROCESSOR_DIR.$path;
+        }
+
         return $file;
     }
 

@@ -48,8 +48,14 @@ class View
 
         if( stristr($page, $this->templateWizardExtension) )
         {
+            $data = ! empty(\ZN\In::$wizard[0])
+                    ? array_merge($data, ...\ZN\In::$wizard)
+                    : array_merge($data, ...\ZN\In::$view);
+
             return $this->_templateWizard($page, $data, $obGetContents, $randomPageDir);
         }
+
+        $data = array_merge($data, ...\ZN\In::$view);
 
         return $this->_page($page, $data, $obGetContents, $randomPageDir);
     }
@@ -86,7 +92,7 @@ class View
             else
             {
                 ob_start();
-                require($randomPagePath);
+                require $randomPagePath;
                 $randomViewFileContent = ob_get_contents();
                 ob_end_clean();
 

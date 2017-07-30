@@ -307,11 +307,21 @@ class InternalLang implements InternalLangInterface
         global $lang;
 
         $file          = ( $this->shortCodes[$this->get()] ?? 'English').'/'.suffix($file, '.php');
-        $langDir       = LANGUAGES_DIR . $file;
+        $langDir       = LANGUAGES_DIR.$file;
+        $sysLangDir    = INTERNAL_LANGUAGES_DIR.$file;
+        $commonLangDir = EXTERNAL_LANGUAGES_DIR.$file;
 
         if( is_file($langDir) && ! IS::import($langDir) )
         {
             $lang[$file] = import($langDir);
+        }
+        elseif( is_file($sysLangDir) && ! IS::import($sysLangDir) )
+        {
+            $lang[$file] = import($sysLangDir);
+        }
+        elseif( is_file($commonLangDir) && ! IS::import($commonLangDir) )
+        {
+            $lang[$file] = import($commonLangDir);
         }
 
         if( empty($str) && isset($lang[$file]) )

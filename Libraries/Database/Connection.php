@@ -299,7 +299,7 @@ class Connection implements ConnectionInterface
     public function func(...$args)
     {
         $array = Arrays::removeFirst($args);
-        $math  = $this->_math(isset($args[0]) ? mb_strtoupper($args[0]) : false, $array);
+        $math  = $this->_math(isset($args[0]) ? \Autoloader::upper($args[0]) : false, $array);
 
         if( $math->return === true )
         {
@@ -475,7 +475,7 @@ class Connection implements ConnectionInterface
 
         if( ($this->config['queryLog'] ?? NULL) === true )
         {
-            report('DatabaseQueries', $query, 'DatabaseQueries');
+            \Logger::report('DatabaseQueries', $query, 'DatabaseQueries');
         }
 
         $this->stringQuery = $query;
@@ -495,7 +495,7 @@ class Connection implements ConnectionInterface
     //--------------------------------------------------------------------------------------------------------
     protected function _math($type, $args)
     {
-        $type    = strtoupper($type);
+        $type    = \Autoloader::upper($type);
         $getLast = Arrays::getLast($args);
 
         $asparam = ' ';

@@ -13,6 +13,10 @@ class In
     //
     //--------------------------------------------------------------------------------------------------------
 
+    public static $view       = [];
+    public static $wizard     = [];
+    public static $masterpage = [];
+
     //--------------------------------------------------------------------------------------------------
     // Project Mode
     //--------------------------------------------------------------------------------------------------
@@ -100,7 +104,50 @@ class In
     //--------------------------------------------------------------------------------------------------
     public static function defaultProjectKey(String $fix = NULL) : String
     {
-        return md5(URL::base() . $fix);
+        if( defined('_CURRENT_PROJECT') )
+        {
+            $containers = PROJECTS_CONFIG['containers'];
+
+            if( ! empty($containers[_CURRENT_PROJECT]) )
+            {
+                return md5(URL::base(strtolower($containers[_CURRENT_PROJECT])) . $fix);
+            }
+        }
+
+        return md5(URL::base(strtolower(CURRENT_PROJECT)) . $fix);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // isSubdomain() -> 4.4.1
+    //--------------------------------------------------------------------------------------------------
+    //
+    // @param void
+    //
+    // @return string
+    //
+    //--------------------------------------------------------------------------------------------------
+    protected static function isSubdomain()
+    {
+        return (bool) (PROJECTS_CONFIG['directory']['others'][host()] ?? false);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // internalGetCurrentProject() - ZN >= 4.2.6
+    //--------------------------------------------------------------------------------------------------
+    //
+    // @param void
+    //
+    // @return string
+    //
+    //--------------------------------------------------------------------------------------------------
+    public static function getCurrentProject() : String
+    {
+        if( self::isSubdomain() )
+        {
+            return false;
+        }
+
+        return (CURRENT_PROJECT === DEFAULT_PROJECT ? '' : suffix(CURRENT_PROJECT));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -182,13 +229,15 @@ class In
     //--------------------------------------------------------------------------------------------------
     protected static function routeAll()
     {
-        $files = (array) Folder::files(ROUTES_DIR, 'php');
+        $externalRouteFiles = (array) Folder::allFiles(EXTERNAL_ROUTES_DIR);
+        $routeFiles         = (array) Folder::allFiles(ROUTES_DIR);
+        $files              = array_merge($externalRouteFiles, $routeFiles);
 
         if( ! empty($files)  )
         {
             foreach( $files as $file )
             {
-                import(ROUTES_DIR . $file);
+                import($file);
             }
 
             Route::all();
@@ -269,7 +318,7 @@ class In
     //--------------------------------------------------------------------------------------------------
     public static function cleanInjection(String $string = NULL) : String
     {
-        $urlInjectionChangeChars = Config::get('IndividualStructures', 'security')['urlChangeChars'];
+        $urlInjectionChangeChars = Config::get('Security', 'urlChangeChars');
 
         if( ! empty($urlInjectionChangeChars) ) foreach( $urlInjectionChangeChars as $key => $val )
         {
@@ -288,7 +337,7 @@ class In
     //--------------------------------------------------------------------------------------------------
     public static function benchmarkReport($start, $finish)
     {
-        if( Config::get('Project', 'benchmark') === true && REQUEST_URI !== NULL )
+        if( Config::get('Project', 'benchmark') === true )
         {
             //----------------------------------------------------------------------------------------------
             // System Elapsed Time Calculating
@@ -326,7 +375,7 @@ class In
             //----------------------------------------------------------------------------------------------
             echo $benchResult;
 
-            report('Benchmarking Test Result', $benchResult, 'BenchmarkTestResults');
+            \Logger::report('Benchmarking Test Result', $benchResult, 'BenchmarkTestResults');
             //----------------------------------------------------------------------------------------------
         }
     }
@@ -378,7 +427,7 @@ class In
         $controllerPath  = ! empty($controllerEx[0]) ? $controllerEx[0] : '';
         $controllerFunc  = ! empty($controllerEx[1]) ? $controllerEx[1] : 'main';
         $controllerFile  = CONTROLLERS_DIR . suffix($controllerPath, '.php');
-        $controllerClass = divide($controllerPath, '/', -1);
+        $controllerClass = \Strings::divide($controllerPath, '/', -1);
 
         if( is_file($controllerFile) )
         {
@@ -391,12 +440,39 @@ class In
 
             if( ! is_callable([$controllerClass, $controllerFunc]) )
             {
-                report('Error', lang('Error', 'callUserFuncArrayError', $controllerFunc), 'SystemCallUserFuncArrayError');
+                \Logger::report('Error', \Lang::select('Error', 'callUserFuncArrayError', $controllerFunc), 'SystemCallUserFuncArrayError');
 
                 die(Errors::message('Error', 'callUserFuncArrayError', $controllerFunc));
             }
 
-            return uselib($controllerClass)->$controllerFunc(...$param);
+            $exclude = $controllerClass . '::exclude';
+            $include = $controllerClass . '::include';
+
+            // Note: Added Control 5.2.0
+            if( defined($exclude) )
+            {
+                if( in_array(CURRENT_CFURI, $controllerClass::exclude) || in_array(CURRENT_CONTROLLER, $controllerClass::exclude) )
+                {
+                    return false;
+                }
+            }
+
+            // Note: Added Control 5.2.0
+            if( defined($include) )
+            {
+                if( ! in_array(CURRENT_CFURI, $controllerClass::include) && ! in_array(CURRENT_CONTROLLER, $controllerClass::include) )
+                {
+                    return false;
+                }
+            }
+
+            $startingControllerClass = uselib($controllerClass);
+
+            $return = $startingControllerClass->$controllerFunc(...$param);
+
+            self::$view[]       = (array) $startingControllerClass->view;
+            self::$wizard[]     = (array) $startingControllerClass->wizard;
+            self::$masterpage[] = (array) $startingControllerClass->masterpage;
         }
         else
         {

@@ -97,7 +97,7 @@ class GrandModel extends BaseController
         }
         else
         {
-            $grandTable = divide(str_ireplace([INTERNAL_ACCESS, 'Grand'], '', get_called_class()), '\\', -1);
+            $grandTable = \Strings::divide(str_ireplace([INTERNAL_ACCESS, 'Grand'], '', get_called_class()), '\\', -1);
         }
 
         $this->grandTable = strtolower($grandTable);
@@ -146,7 +146,7 @@ class GrandModel extends BaseController
         {
             try
             {
-                throw new GeneralException(lang('Database', 'tableNotExistsError', 'Grand: '.$this->grandTable));
+                throw new GeneralException(\Lang::select('Database', 'tableNotExistsError', 'Grand: '.$this->grandTable));
             }
             catch( GeneralException $e )
             {

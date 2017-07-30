@@ -61,6 +61,20 @@ class Package
     }
 
     //--------------------------------------------------------------------------------------------------------
+    // Resource -> 5.1.0
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // @param string $theme
+    // @param bool   $recursive
+    // @param bool   $getContents
+    //
+    //--------------------------------------------------------------------------------------------------------
+    public function resource($theme = 'Default', Bool $recursive = false, Bool $getContents = false)
+    {
+        return $this->use($theme, $recursive, $getContents, RESOURCES_DIR);
+    }
+
+    //--------------------------------------------------------------------------------------------------------
     // Theme
     //--------------------------------------------------------------------------------------------------------
     //
@@ -103,6 +117,12 @@ class Package
     {
         $eol    = EOL;
         $return = '';
+
+        // Common Directory
+        if( ! is_dir($packages) && ! is_file($packages) )
+        {
+            $packages = str_replace(RESOURCES_DIR, EXTERNAL_RESOURCES_DIR, $packages);
+        }
 
         if( Folder::exists($packages) )
         {

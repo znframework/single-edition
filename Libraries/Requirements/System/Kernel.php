@@ -24,7 +24,7 @@ class Kernel
 
         if( empty($appcon) )
         {
-            trace('["Container"] Not Found! Check the [\'containers\'] setting in the [Projects/Projects.php] file.');
+            trace('["Container"] Not Found! Check the [\'containers\'] setting in the [Settings/Projects.php] file.');
         }
 
         define('PROJECT_MODE', strtolower($appcon['mode']));
@@ -40,7 +40,7 @@ class Kernel
             ob_start();
         }
 
-        headers(Config::get('Project', 'headers'));
+        headers(Config::get('General', 'headers'));
 
         if( PROJECT_MODE !== 'publication' )
         {
@@ -99,7 +99,7 @@ class Kernel
                 }
                 else
                 {
-                    report('Error', lang('Error', 'fileNotFound', $path) ,'AutoloadComposer');
+                    \Logger::report('Error', \Lang::select('Error', 'fileNotFound', $path) ,'AutoloadComposer');
 
                     die(Errors::message('Error', 'fileNotFound', $path));
                 }
@@ -112,7 +112,7 @@ class Kernel
             {
                 $path = suffix($composer) . $path;
 
-                report('Error', lang('Error', 'fileNotFound', $path) ,'AutoloadComposer');
+                \Logger::report('Error', \Lang::select('Error', 'fileNotFound', $path) ,'AutoloadComposer');
 
                 die(Errors::message('Error', 'fileNotFound', $path));
             }
@@ -122,13 +122,27 @@ class Kernel
 
         if( $starting['autoload']['status'] === true )
         {
-            $startingAutoload = Folder::allFiles(AUTOLOAD_DIR, $starting['autoload']['recursive']);
+            $startingAutoload       = Folder::allFiles(AUTOLOAD_DIR, $starting['autoload']['recursive']);
+            $commonStartingAutoload = Folder::allFiles(EXTERNAL_AUTOLOAD_DIR, $starting['autoload']['recursive']);
 
             if( ! empty($startingAutoload) ) foreach( $startingAutoload as $file )
             {
                 if( File::extension($file) === 'php' )
                 {
                     if( is_file($file) )
+                    {
+                        import($file);
+                    }
+                }
+            }
+
+            if( ! empty($commonStartingAutoload) ) foreach( $commonStartingAutoload as $file )
+            {
+                if( File::extension($file) === 'php' )
+                {
+                    $commonIsSameExistsFile = str_ireplace(EXTERNAL_AUTOLOAD_DIR, AUTOLOAD_DIR, $file);
+
+                    if( ! is_file($commonIsSameExistsFile) && is_file($file) )
                     {
                         import($file);
                     }
@@ -186,8 +200,8 @@ class Kernel
             {
                 if( ! is_callable([$page, $function]) )
                 {
-                    $parameters   = Arrays::addFirst($parameters, $function);
-                    $function     = $openFunction;
+                    $parameters = Arrays::addFirst($parameters, $function);
+                    $function   = $openFunction;
                 }
 
                 if( is_callable([$page, $function]) )
@@ -210,8 +224,8 @@ class Kernel
                             $viewDir      = PAGES_DIR . $view . DS . $viewFunction;
                         }
 
-                        $viewPath   = $viewDir  . '.php';
-                        $wizardPath = $viewDir  . '.wizard.php';
+                        $viewPath   = $viewDir . '.php';
+                        $wizardPath = $viewDir . '.wizard.php';
 
                         $pageClass = uselib($page);
 
@@ -220,15 +234,24 @@ class Kernel
                         if( is_file($wizardPath) && ! IS::import($viewPath) && ! IS::import($wizardPath) )
                         {
                             $data = (array) ( ! empty((array) $pageClass->wizard) ? $pageClass->wizard : $pageClass->view );
+
+                            $data = ! empty(\ZN\In::$wizard[0])
+                                    ? array_merge($data, ...\ZN\In::$wizard)
+                                    : array_merge($data, ...\ZN\In::$view);
+
                             $usableView = Import::view(str_replace(PAGES_DIR, NULL, $wizardPath), $data, true);
                         }
                         elseif( is_file($viewPath) && ! IS::import($viewPath) && ! IS::import($wizardPath) )
                         {
                             $data = (array) $pageClass->view;
+                            $data = array_merge($data, ...\ZN\In::$view);
+
                             $usableView = Import::view(str_replace(PAGES_DIR, NULL, $viewPath), $data, true);
                         }
 
-                        if( ($data['masterpage'] ?? NULL) === true || ! empty($data = (array) $pageClass->masterpage) )
+                        $data = array_merge((array) $pageClass->masterpage, ...\ZN\In::$masterpage);
+
+                        if( ($data['masterpage'] ?? NULL) === true || ! empty($data) )
                         {
                             Import::headData($data)->bodyContent($usableView ?? '')->masterpage($data);
                         }
@@ -269,14 +292,14 @@ class Kernel
         }
         else
         {
-            if(  Config::get('Project', 'log')['createFile'] === true && $errorLast = Errors::last() )
+            if(  Config::get('General', 'log')['createFile'] === true && $errorLast = Errors::last() )
             {
-                $lang    = lang('Templates');
+                $lang    = \Lang::select('Templates');
                 $message = $lang['line']   .':'.$errorLast['line'].', '.
                            $lang['file']   .':'.$errorLast['file'].', '.
                            $lang['message'].':'.$errorLast['message'];
 
-                report('GeneralError', $message, 'GeneralError');
+                \Logger::report('GeneralError', $message, 'GeneralError');
             }
         }
 

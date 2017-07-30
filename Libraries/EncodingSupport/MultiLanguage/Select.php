@@ -26,10 +26,17 @@ class Select extends MLExtends
     {
         if( File::exists($this->lang) )
         {
-            $read = File::read($this->lang);
+            $read   = File::read($this->lang);
         }
 
-        $array  = Json::decodeArray($read  ?? '');
+        if( File::exists($this->externalLang) )
+        {
+            $eread  = File::read($this->externalLang);
+        }
+
+        $read   = Json::decodeArray($read  ?? '');
+        $eread  = Json::decodeArray($eread ?? '');
+        $array  = array_merge($eread, $read);
         $return = '';
 
         if( isset($array[$key]) )

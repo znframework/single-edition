@@ -72,7 +72,7 @@ class Info
 
         if( ! function_exists($validType) || $validType === NULL )
         {
-            die(getErrorMessage('Error', 'undefinedFunction', Classes::onlyName(get_called_class()).'::'.$type.'()'));
+            die(\Errors::message('Error', 'undefinedFunction', Classes::onlyName(get_called_class()).'::'.$type.'()'));
         }
 
         if( $validType($file) )
@@ -93,7 +93,7 @@ class Info
     // @return string
     //
     //--------------------------------------------------------------------------------------------------
-    function pathInfo(String $file, String $info = 'basename') : String
+    public function pathInfo(String $file, String $info = 'basename') : String
     {
         $pathInfo = pathinfo($file);
 
@@ -140,7 +140,7 @@ class Info
     // @param string
     //
     //--------------------------------------------------------------------------------------------------------
-    public function rpath(String $file) : String
+    public function rpath(String $file = NULL) : String
     {
         $config = Config::get('FileSystem', 'file', $this->access);
 
@@ -217,9 +217,9 @@ class Info
     // @return string
     //
     //--------------------------------------------------------------------------------------------------
-    public function absolutePath(String $string) : String
+    public function absolutePath(String $string = NULL) : String
     {
-        return absoluteRelativePath($string);
+        return str_replace([REAL_BASE_DIR, DS], [NULL, '/'], $string);
     }
 
     //--------------------------------------------------------------------------------------------------------

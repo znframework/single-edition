@@ -1,7 +1,7 @@
 <?php namespace ZN\Services\Request;
 
 use ZN\In;
-use Converter, CallController, Lang;
+use Converter, CallController, Lang, File;
 
 class InternalURL extends CallController implements InternalURLInterface
 {
@@ -115,7 +115,7 @@ class InternalURL extends CallController implements InternalURLInterface
     //--------------------------------------------------------------------------------------------------------
     public function base(String $uri = NULL, Int $index = 0) : String
     {
-        return $this->host(In::baseDir($index) . absoluteRelativePath($uri));
+        return $this->host(In::baseDir($index) . File::absolutePath($uri));
     }
 
     //--------------------------------------------------------------------------------------------------------
@@ -132,7 +132,8 @@ class InternalURL extends CallController implements InternalURLInterface
         return $this->host
         (
                In::baseDir($index).
-               indexStatus().
+               INDEX_STATUS.
+               In::getCurrentProject().
                suffix(Lang::current()).
                $uri
          );
@@ -150,7 +151,7 @@ class InternalURL extends CallController implements InternalURLInterface
     //--------------------------------------------------------------------------------------------------
     function sites(String $uri = NULL, Int $index = 0) : String
     {
-        return str_replace(sslStatus(), httpFix(true), $this->site($uri, $index));
+        return str_replace(SSL_STATUS, \Http::fix(true), $this->site($uri, $index));
     }
 
     //--------------------------------------------------------------------------------------------------------
@@ -183,7 +184,7 @@ class InternalURL extends CallController implements InternalURLInterface
     //--------------------------------------------------------------------------------------------------------
     public function host(String $uri = NULL) : String
     {
-        return sslStatus() . host() . ($uri === '' ? '/' : prefix(In::cleanInjection($uri)));
+        return SSL_STATUS . host() . ($uri === '' ? '/' : prefix(In::cleanInjection($uri)));
     }
 
     //--------------------------------------------------------------------------------------------------------

@@ -52,6 +52,15 @@ class MLExtends extends CLController
     protected $lang;
 
     //--------------------------------------------------------------------------------------------------------
+    // $externalLang
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // @var string:
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected $externalLang;
+
+    //--------------------------------------------------------------------------------------------------------
     // Constructor
     //--------------------------------------------------------------------------------------------------------
     //
@@ -65,6 +74,7 @@ class MLExtends extends CLController
         $mlDir = 'ML' . DS;
 
         $this->appdir = LANGUAGES_DIR . $mlDir;
+        $this->externalAppdir = EXTERNAL_LANGUAGES_DIR . $mlDir;
 
         if( ! Folder::exists($this->appdir) )
         {
@@ -74,6 +84,7 @@ class MLExtends extends CLController
         $getLang = Lang::get();
 
         $this->lang = $this->appdir.$getLang.$this->extension;
+        $this->externalLang = $this->externalAppdir.$getLang.$this->extension;
     }
 
     //--------------------------------------------------------------------------------------------------------

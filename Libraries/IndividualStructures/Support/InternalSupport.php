@@ -34,11 +34,11 @@ class InternalSupport extends CallController implements InternalSupportInterface
         {
             if( is_string($error) )
             {
-                die(getErrorMessage('Error', $error, $value));
+                die(\Errors::message('Error', $error, $value));
             }
             else
             {
-                die(getErrorMessage(key($error), current($error), $value));
+                die(\Errors::message(key($error), current($error), $value));
             }
         }
 
@@ -122,7 +122,7 @@ class InternalSupport extends CallController implements InternalSupportInterface
     {
         if( ! in_array(strtolower($driver), $drivers) )
         {
-            die(getErrorMessage('Error', 'driverError', $driver));
+            die(\Errors::message('Error', 'driverError', $driver));
         }
 
         return true;
@@ -138,11 +138,11 @@ class InternalSupport extends CallController implements InternalSupportInterface
     //--------------------------------------------------------------------------------------------------------
     public function classMethod(String $class, String $method)
     {
-        die(getErrorMessage
+        die(\Errors::message
         (
             'Error',
             'undefinedFunction',
-            divide(str_ireplace(INTERNAL_ACCESS, '', Classes::onlyName($class)), '\\', -1)."::$method()"
+            \Strings::divide(str_ireplace(INTERNAL_ACCESS, '', Classes::onlyName($class)), '\\', -1)."::$method()"
         ));
     }
 }
