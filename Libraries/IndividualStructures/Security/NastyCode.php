@@ -2,7 +2,7 @@
 
 use Regex;
 
-class NastyCode extends SecurityExtends implements NastyCodeInterface
+class NastyCode extends SecurityExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -27,7 +27,7 @@ class NastyCode extends SecurityExtends implements NastyCodeInterface
         // 2. Parametre boş ise varsayılan olarak Config/Security.php dosya ayarlarını kullan.
         if( empty($badWords) )
         {
-            $secnc      = INDIVIDUALSTRUCTURES_SECURITY_CONFIG['ncEncode'];
+            $secnc      = Properties::$ncEncode;
             $badWords   = $secnc['badChars'];
             $changeChar = $secnc['changeBadChars'];
         }

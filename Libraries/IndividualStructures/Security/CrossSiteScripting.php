@@ -1,6 +1,6 @@
 <?php namespace ZN\IndividualStructures\Security;
 
-class CrossSiteScripting extends SecurityExtends implements CrossSiteScriptingInterface
+class CrossSiteScripting extends SecurityExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -12,6 +12,24 @@ class CrossSiteScripting extends SecurityExtends implements CrossSiteScriptingIn
     //--------------------------------------------------------------------------------------------------------
 
     //--------------------------------------------------------------------------------------------------------
+    // Script Bad Chars
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // Genel Kullanımı: Script saldırılarına neden olacak karater listesi.
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected $scriptBadChars =
+    [
+        'document\.cookie' => 'document&#46;cookie',
+        'document\.write'  => 'document&#46;write',
+        '\.parentNode'     => '&#46;parentNode',
+        '\.innerHTML'      => '&#46;innerHTML',
+        '\-moz\-binding'   => '&#150;moz&#150;binding',
+        '<'                => '&#60;',
+        '>'                => '&#62;',
+    ];
+
+    //--------------------------------------------------------------------------------------------------------
     // Xss Encode
     //--------------------------------------------------------------------------------------------------------
     //
@@ -20,7 +38,7 @@ class CrossSiteScripting extends SecurityExtends implements CrossSiteScriptingIn
     //--------------------------------------------------------------------------------------------------------
     public function encode(String $string) : String
     {
-        $secBadChars = INDIVIDUALSTRUCTURES_SECURITY_CONFIG['scriptBadChars'];
+        $secBadChars = $this->scriptBadChars;
 
         if( ! empty($secBadChars) )
         {

@@ -1,18 +1,5 @@
 <?php
 //--------------------------------------------------------------------------------------------------------
-// Extract Vars
-//--------------------------------------------------------------------------------------------------------
-//
-// @var string $id
-// @var array  $extensions
-// @var array  $properties
-// @var array  $attributes
-//
-//--------------------------------------------------------------------------------------------------------,
-$extensions = $extensions ?? [];
-$attributes = $attributes ?? [];
-
-//--------------------------------------------------------------------------------------------------------
 // Autoloader Extension
 //--------------------------------------------------------------------------------------------------------
 //
@@ -22,10 +9,8 @@ $attributes = $attributes ?? [];
 // @extension morris
 //
 //--------------------------------------------------------------------------------------------------------
-if( ! empty($autoloadExtensions) )
-{
-    $extensions = array_merge(['jquery', 'flexSlider'], (array) $extensions);
-}
+
+$extensions = JC::extensions($extensions, ['jquery', 'flexSlider']);
 
 //--------------------------------------------------------------------------------------------------------
 // Available Extensions
@@ -47,7 +32,7 @@ if( ! empty($extensions) )
 
 <div class="flexslider"<?php echo Html::attributes($attributes);?> id="<?php echo $id ?>">
     <ul class="slides">
-        <?php if( isArray($images ?? NULL) ) foreach( $images as $image ): ?>
+        <?php if( IS::array($images ?? NULL) ) foreach( $images as $image ): ?>
         <li>
             <?php
             if( ! is_array($image) ):

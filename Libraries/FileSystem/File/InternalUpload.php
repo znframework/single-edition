@@ -1,6 +1,6 @@
 <?php namespace ZN\FileSystem;
 
-use Config, Folder, Converter, Encode, CallController;
+use Config, Folder, File, Converter, Encode, CallController, IS;
 
 class InternalUpload extends CallController implements InternalUploadInterface
 {
@@ -199,7 +199,7 @@ class InternalUpload extends CallController implements InternalUploadInterface
     //--------------------------------------------------------------------------------------------------------
     public function encode(String $hash = 'md5') : InternalUpload
     {
-        if( isHash($hash) )
+        if( IS::hash($hash) )
         {
             $this->settings['encryption'] = $hash;
         }
@@ -377,9 +377,9 @@ class InternalUpload extends CallController implements InternalUploadInterface
                 $this->encodeName[] = $encryptionName;
                 $this->path[]       = $target;
 
-                if( isset($this->settings['extensions']) && ! in_array(extension($nm), $extensions) )
+                if( isset($this->settings['extensions']) && ! in_array(File::extension($nm), $extensions) )
                 {
-                    $this->extensionControl = lang('FileSystem', 'upload:extensionError');
+                    $this->extensionControl = \Lang::select('FileSystem', 'upload:extensionError');
                 }
                 elseif( isset($this->settings['maxsize']) && $this->settings['maxsize'] < filesize($src) )
                 {
@@ -436,9 +436,9 @@ class InternalUpload extends CallController implements InternalUploadInterface
             $this->encodeName = $encryptionName;
             $this->path       = $target;
 
-            if( isset($this->settings['extensions']) && ! in_array(extension($name),$extensions) )
+            if( isset($this->settings['extensions']) && ! in_array(File::extension($name),$extensions) )
             {
-                return ! $this->extensionControl = lang('FileSystem', 'upload:extensionError');
+                return ! $this->extensionControl = \Lang::select('FileSystem', 'upload:extensionError');
             }
             else
             {
@@ -522,7 +522,7 @@ class InternalUpload extends CallController implements InternalUploadInterface
 
         if( $errorNo === NULL )
         {
-            return lang('FileSystem', 'upload:unknownError');
+            return \Lang::select('FileSystem', 'upload:unknownError');
         }
 
         if( is_array($errorNo) )
@@ -541,18 +541,20 @@ class InternalUpload extends CallController implements InternalUploadInterface
             $errorNo = $errno;
         }
 
+        $lang = \Lang::select('FileSystem');
+
         $this->errors =
         [
             '0'  => "scc",                          // Dosya başarı ile yüklendi.
-            '1'  => lang('FileSystem', 'upload:1'), // Php.ini dosyasındaki maximum dosya boyutu aşıldı.
-            '2'  => lang('FileSystem', 'upload:2'), // Formtaki max_file_size direktifindeki dosya boyutu limiti aşıldı.
-            '3'  => lang('FileSystem', 'upload:3'), // Dosya yükleme işlemi tamamlanmadı.
-            '4'  => lang('FileSystem', 'upload:4'), // Yüklenecek dosya yok.
-            '6'  => lang('FileSystem', 'upload:6'), // Dosyaların geçici olarak yükleneceği dizin bulunamadı.
-            '7'  => lang('FileSystem', 'upload:7'), // Dosya dik üzerine yazılamadı.
-            '8'  => lang('FileSystem', 'upload:8'), // Dosya yükleme uzantı desteği yok.
-            '9'  => lang('FileSystem', 'upload:9'), // Dosya yükleme yolu geçerli değil.
-            '10' => lang('FileSystem', 'upload:10') // Belirlenen maksimum dosya boyutu aşıldı!
+            '1'  => $lang['upload:1'], // Php.ini dosyasındaki maximum dosya boyutu aşıldı.
+            '2'  => $lang['upload:2'], // Formtaki max_file_size direktifindeki dosya boyutu limiti aşıldı.
+            '3'  => $lang['upload:3'], // Dosya yükleme işlemi tamamlanmadı.
+            '4'  => $lang['upload:4'], // Yüklenecek dosya yok.
+            '6'  => $lang['upload:6'], // Dosyaların geçici olarak yükleneceği dizin bulunamadı.
+            '7'  => $lang['upload:7'], // Dosya dik üzerine yazılamadı.
+            '8'  => $lang['upload:8'], // Dosya yükleme uzantı desteği yok.
+            '9'  => $lang['upload:9'], // Dosya yükleme yolu geçerli değil.
+            '10' => $lang['upload:10'] // Belirlenen maksimum dosya boyutu aşıldı!
         ];
         // Manuel belirlenen hata oluşmuşsa
         if( ! empty($this->manuelError) )
@@ -578,7 +580,7 @@ class InternalUpload extends CallController implements InternalUploadInterface
         // hata uyarısı ver.
         else
         {
-            return lang('FileSystem', 'upload:unknownError');
+            return \Lang::select('FileSystem', 'upload:unknownError');
         }
     }
 
@@ -591,7 +593,7 @@ class InternalUpload extends CallController implements InternalUploadInterface
     //--------------------------------------------------------------------------------------------------------
     protected function _convertName($name = NULL)
     {
-        return  Converter::slug(removeExtension($name)) . '.' . extension($name);
+        return  Converter::slug(File::removeExtension($name)) . '.' . File::extension($name);
     }
 
     //--------------------------------------------------------------------------------------------------------
@@ -606,7 +608,7 @@ class InternalUpload extends CallController implements InternalUploadInterface
         $encode = $this->settings['encryption'];
         $length = $this->settings['encodeLength'];
 
-        if( ! isHash($encode) )
+        if( ! IS::hash($encode) )
         {
             $encode = 'md5';
         }

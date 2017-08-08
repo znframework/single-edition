@@ -147,7 +147,7 @@ class InternalValidation extends CallController implements InternalValidationInt
 
         if( in_array('nc', $config) )
         {
-            $secnc = Config::get('IndividualStructures', 'security')['ncEncode'];
+            $secnc = \ZN\IndividualStructures\Security\Properties::$ncEncode;
             $edit  = Security::ncEncode($edit, $secnc['badChars'], $secnc['changeBadChars']);
         }
 
@@ -433,7 +433,7 @@ class InternalValidation extends CallController implements InternalValidationInt
     //--------------------------------------------------------------------------------------------------------
     protected function _messages($type, $name, $viewName)
     {
-        $message = lang('ViewObjects', 'validation:'.$type, $viewName);
+        $message = \Lang::select('ViewObjects', 'validation:'.$type, $viewName);
         $this->messages[$this->index] = $message.'<br>'; $this->index++;
         $this->error[$name] = $message;
     }

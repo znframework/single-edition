@@ -1,8 +1,6 @@
 <?php namespace ZN\ViewObjects\Javascript\Components;
 
-use Arrays;
-
-class Datatables extends ComponentsExtends implements DatatablesInterface
+class Datatables extends ComponentsExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -35,16 +33,6 @@ class Datatables extends ComponentsExtends implements DatatablesInterface
         $attr['process'] = $this->process ?? NULL;
         $attr['length']  = $this->length  ?? 100;
 
-        $attr['autoloadExtensions'] = $this->autoloadExtensions ?? false;
-        $attr['extensions']         = $this->extensions         ?? [];
-        $attr['attributes']         = $this->attributes         ?? [];
-        $attr['properties']         = $this->properties         ?? Arrays::removeKey($this->revolvings,
-        [
-            'width', 'id', 'class', 'process', 'length', 'autoloadExtensions', 'extensions', 'attributes', 'properties'
-        ]);
-
-        $this->defaultVariable();
-
-        return $this->load('Datatables/View', $attr);
+        return $this->prop($attr);
     }
 }

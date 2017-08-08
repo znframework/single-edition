@@ -3,7 +3,7 @@
 use File;
 use ZN\FileSystem\Exception\FolderNotFoundException;
 
-class FileList implements FileListInterface
+class FileList
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -75,7 +75,7 @@ class FileList implements FileListInterface
             {
                 if( is_file($v) )
                 {
-                    $classEx = explode('/', $v);
+                    $classEx = explode(DS, $v);
 
                     $classes[] = $v;
                 }
@@ -88,14 +88,14 @@ class FileList implements FileListInterface
             return (array) $classes;
         }
 
-        if( strstr($pattern, '/') && strstr($pattern, '*') === false )
+        if( strstr($pattern, DS) && strstr($pattern, '*') === false )
         {
             $pattern .= "*";
         }
 
-        if( strstr($pattern, '/') === false && strstr($pattern, '*') === false )
+        if( strstr($pattern, DS) === false && strstr($pattern, '*') === false )
         {
-            $pattern .= "/*";
+            $pattern .= DS . "*";
         }
 
         return glob($pattern);
@@ -130,7 +130,7 @@ class FileList implements FileListInterface
             {
                 if( ! empty($extension) && $extension !== 'dir' )
                 {
-                    if( extension($file) === $extension )
+                    if( File::extension($file) === $extension )
                     {
                         $files[] = $prefixPath.$file;
                     }

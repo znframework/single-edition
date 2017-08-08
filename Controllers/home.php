@@ -6,7 +6,7 @@ class Home extends Controller
     {
         // Simplicity is our choice, how about yours ?
 
-        $this->view->title    = 'ZN FRAMEWORK';
-        $this->view->subtitle = 'Single Edition';
+        $this->view->title    = 'ZN5 ORIGINAL';
+        $this->view->subtitle = 'Community Edition';
     }
 }

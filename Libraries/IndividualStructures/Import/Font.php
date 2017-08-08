@@ -1,8 +1,8 @@
 <?php namespace ZN\IndividualStructures\Import;
 
-use Config, Import;
+use Config, Import, URL, File;
 
-class Font extends BootstrapExtends implements BootstrapInterface
+class Font extends BootstrapExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -36,14 +36,19 @@ class Font extends BootstrapExtends implements BootstrapInterface
                 $font = '';
             }
 
-            $f = divide($font, "/", -1);
+            $f = \Strings::divide($font, "/", -1);
             // SVG IE VE MOZILLA DESTEKLEMIYOR
 
             $fontFile = FONTS_DIR.$font;
 
-            $baseUrl  = baseUrl($fontFile);
+            if( ! is_file($fontFile) )
+            {
+                $fontFile = EXTERNAL_FONTS_DIR.$font;
+            }
 
-            if( extension($fontFile) )
+            $baseUrl  = URL::base($fontFile);
+
+            if( File::extension($fontFile) )
             {
                 if( is_file($fontFile) )
                 {
@@ -81,11 +86,11 @@ class Font extends BootstrapExtends implements BootstrapInterface
 
             if( ! empty($cndFont) )
             {
-                $str .= '@font-face{font-family:"'.divide(removeExtension($cndFont), "/", -1).'"; src:url("'.$cndFont.'") format("truetype")}'.$eol;
+                $str .= '@font-face{font-family:"'.\Strings::divide(File::removeExtension($cndFont), "/", -1).'"; src:url("'.$cndFont.'") format("truetype")}'.$eol;
             }
 
             // FARKLI FONTLAR
-            $differentSet = Config::get('ViewObjects', 'font')['differentFontExtensions'];
+            $differentSet = Properties::$differentFontExtensions;
 
             if( ! empty($differentSet) )
             {

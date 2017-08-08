@@ -1,6 +1,6 @@
 <?php namespace ZN\Requirements\System;
 
-use Arrays, Json;
+use Arrays, Json, Crontab, IS;
 use ZN\Core\Structure;
 
 class Zerocore
@@ -50,7 +50,7 @@ class Zerocore
     //--------------------------------------------------------------------------------------------------------
     public static function commander($commands)
     {
-        report('TerminalCommands', implode(' ', $commands), 'TerminalCommands');
+        \Logger::report('TerminalCommands', implode(' ', $commands), 'TerminalCommands');
 
         $commands = Arrays::removeFirst($commands);
 
@@ -91,7 +91,11 @@ class Zerocore
             case 'run-controller'       : self::_runController();                       break;
             case 'run-model'            :
             case 'run-class'            : self::_runClass();                            break;
+            case 'run-cron'             : self::_runCron();                             break;
+            case 'cron-list'            : echo Crontab::list();                         break;
+            case 'remove-cron'          : self::_removeCron();                          break;
             case 'run-command'          : self::_runClass(PROJECT_COMMANDS_NAMESPACE);  break;
+            case 'run-external-command' : self::_runClass(EXTERNAL_COMMANDS_NAMESPACE); break;
             case 'run-function'         : self::_runFunction();                         break;
             case 'command-list'         :
             default                     : self::_commandList();
@@ -146,6 +150,10 @@ class Zerocore
             'run-controller          run-controller controller/function/p1/p2/.../pN',
             'run-model               run-model model:function p1 p2 ... pN',
             'run-class               run-class class:function p1 p2 ... pN',
+            'run-cron                run-cron controller/method func param func param ...',
+            'run-cron                run-cron command:method func param func param ...',
+            'cron-list               Cron Job List',
+            'remove-cron             remove-cron cronID',
             'run-command             run-command command:function p1 p2 ...pN',
             'run-external-command    run-command command:function p1 p2 ...pN',
             'run-function            run-function function p1 p2 ... pN'
@@ -177,6 +185,50 @@ class Zerocore
     }
 
     //--------------------------------------------------------------------------------------------------------
+    // Protected Run Cron
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // @param void
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected static function _runCron()
+    {
+        $parameters = self::$parameters;
+
+        for( $index = 0, $rindex = 1; $index < count($parameters); $index += 2, $rindex += 2 )
+        {
+            $func = $parameters[$index]  ?? NULL;
+            $prm  = $parameters[$rindex] ?? NULL;
+            Crontab::$func($prm);
+        }
+
+        if( IS::url(self::$command) )
+        {
+            return Crontab::wget(self::$command);
+        }
+        elseif( strstr(self::$command, '/') )
+        {
+            return Crontab::controller(self::$command);
+        }
+        else
+        {
+            return Crontab::command(self::$command);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------------
+    // Protected Run Cron
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // @param void
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected static function _removeCron()
+    {
+        return Crontab::remove(self::$parameters[0] ?? NULL);
+    }
+
+    //--------------------------------------------------------------------------------------------------------
     // Protected Result
     //--------------------------------------------------------------------------------------------------------
     //
@@ -187,11 +239,11 @@ class Zerocore
     {
         if( $result === true || $result === NULL )
         {
-            echo lang('Success', 'success');
+            echo \Lang::select('Success', 'success');
         }
         elseif( $result === false )
         {
-            echo lang('Error', 'error');
+            echo \Lang::select('Error', 'error');
         }
         else
         {

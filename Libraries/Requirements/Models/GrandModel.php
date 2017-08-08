@@ -68,6 +68,15 @@ class GrandModel extends BaseController
     protected $status;
 
     //--------------------------------------------------------------------------------------------------------
+    // Variable Get
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // @var get object
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected $get;
+
+    //--------------------------------------------------------------------------------------------------------
     // Constructor
     //--------------------------------------------------------------------------------------------------------
     //
@@ -88,7 +97,7 @@ class GrandModel extends BaseController
         }
         else
         {
-            $grandTable = divide(str_ireplace([INTERNAL_ACCESS, 'Grand'], '', get_called_class()), '\\', -1);
+            $grandTable = \Strings::divide(str_ireplace([INTERNAL_ACCESS, 'Grand'], '', get_called_class()), '\\', -1);
         }
 
         $this->grandTable = strtolower($grandTable);
@@ -137,7 +146,7 @@ class GrandModel extends BaseController
         {
             try
             {
-                throw new GeneralException(lang('Database', 'tableNotExistsError', 'Grand: '.$this->grandTable));
+                throw new GeneralException(\Lang::select('Database', 'tableNotExistsError', 'Grand: '.$this->grandTable));
             }
             catch( GeneralException $e )
             {
@@ -247,7 +256,7 @@ class GrandModel extends BaseController
     //--------------------------------------------------------------------------------------------------------
     protected function _get()
     {
-        return $this->connect->get($this->grandTable);
+        return $this->get = $this->connect->get($this->grandTable);
     }
 
     //--------------------------------------------------------------------------------------------------------
@@ -571,7 +580,16 @@ class GrandModel extends BaseController
     //--------------------------------------------------------------------------------------------------------
     public function pagination(String $url = NULL, Array $settings = [], Bool $output = true)
     {
-        return $this->_get()->pagination($url, $settings, $output);
+        if( ! empty($this->get) )
+        {
+            $get = $this->get;
+        }
+        else
+        {
+            $get = $this->_get();
+        }
+
+        return $get->pagination($url, $settings, $output);
     }
 
     //--------------------------------------------------------------------------------------------------------

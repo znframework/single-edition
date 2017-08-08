@@ -1,6 +1,6 @@
 <?php namespace ZN\ViewObjects\Javascript\Components;
 
-class Modal extends ComponentsExtends implements ModalInterface
+class Modal extends ComponentsExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -34,11 +34,6 @@ class Modal extends ComponentsExtends implements ModalInterface
             'close' => $this->close ?? true
         ];
 
-        $attr['autoloadExtensions'] = $this->autoloadExtensions ?? false;
-        $attr['extensions']         = $this->extensions         ?? [];
-
-        $this->defaultVariables();
-
-        return $this->load('Modal/View', $attr);
+        return $this->prop($attr);
     }
 }

@@ -1,8 +1,6 @@
 <?php namespace ZN\ViewObjects\Javascript\Components;
 
-use Arrays;
-
-class AceEditor extends ComponentsExtends implements AceEditorInterface
+class AceEditor extends ComponentsExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -25,17 +23,9 @@ class AceEditor extends ComponentsExtends implements AceEditorInterface
     {
         $editors($this);
 
-        $attr['id']                 = $id;
-        $attr['autoloadExtensions'] = $this->autoloadExtensions ?? false;
-        $attr['extensions']         = $this->extensions         ?? [];
-        $attr['attributes']         = $this->attributes         ?? [];
-        $attr['properties']         = $this->properties         ?? Arrays::removeKey($this->revolvings,
-        [
-            'autoloadExtensions', 'extensions', 'attributes', 'properties'
-        ]);
+        $attr['id'] = $id;
 
-        $this->defaultVariable();
+        return $this->prop($attr);
 
-        return $this->load('AceEditor/View', $attr);
     }
 }

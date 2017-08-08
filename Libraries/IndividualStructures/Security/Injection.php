@@ -1,6 +1,6 @@
 <?php namespace ZN\IndividualStructures\Security;
 
-class Injection extends SecurityExtends implements InjectionInterface
+class Injection extends SecurityExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -18,7 +18,7 @@ class Injection extends SecurityExtends implements InjectionInterface
     // @var array
     //
     //--------------------------------------------------------------------------------------------------------
-    protected $nailChars = 
+    protected $nailChars =
     [
         "'" => "&#39;",
         '"' => "&#34;"
@@ -33,7 +33,7 @@ class Injection extends SecurityExtends implements InjectionInterface
     //--------------------------------------------------------------------------------------------------------
     public function encode(String $string) : String
     {
-        $secBadChars = INDIVIDUALSTRUCTURES_SECURITY_CONFIG['injectionBadChars'];
+        $secBadChars = Properties::$injectionBadChars;
 
         if( ! empty($secBadChars) )
         {

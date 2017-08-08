@@ -1,9 +1,9 @@
 <?php namespace ZN\IndividualStructures\Import;
 
+use File, View as Views;
 use ZN\ViewObjects\TemplateWizard;
-use ZN\IndividualStructures\Import\Exception\FileNotFoundException;
 
-class View implements ViewInterface
+class View
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -46,6 +46,8 @@ class View implements ViewInterface
 
         Properties::$parameters = [];
 
+        $data = (array) $data;
+
         if( stristr($page, $this->templateWizardExtension) )
         {
             return $this->_templateWizard($page, $data, $obGetContents, $randomPageDir);
@@ -65,7 +67,7 @@ class View implements ViewInterface
     //--------------------------------------------------------------------------------------------------------
     protected function _page($randomPageVariable, $randomDataVariable, $randomObGetContentsVariable = false, $randomPageDir = VIEWS_DIR)
     {
-        if( ! extension($randomPageVariable) || stristr($randomPageVariable, $this->templateWizardExtension) )
+        if( ! File::extension($randomPageVariable) || stristr($randomPageVariable, $this->templateWizardExtension) )
         {
             $randomPageVariable = suffix($randomPageVariable, '.php');
         }
@@ -86,7 +88,7 @@ class View implements ViewInterface
             else
             {
                 ob_start();
-                require($randomPagePath);
+                require $randomPagePath;
                 $randomViewFileContent = ob_get_contents();
                 ob_end_clean();
 
@@ -95,7 +97,7 @@ class View implements ViewInterface
         }
         else
         {
-            throw new FileNotFoundException('Error', 'fileNotFound', $randomPageVariable);
+            return false;
         }
     }
 

@@ -271,7 +271,12 @@ class InternalGenerate extends CallController implements InternalGenerateInterfa
     //--------------------------------------------------------------------------------------------------------
     protected function _path($name, $type)
     {
-        return $this->_type($type).suffix($name, '.php');
+        if( empty($this->settings['application']) )
+        {
+            $this->settings['application'] = \Strings::divide(rtrim(PROJECT_DIR, DS), DS, -1);
+        }
+
+        return PROJECTS_DIR.$this->settings['application'].$this->_type($type).suffix($name, '.php');
     }
 
     //--------------------------------------------------------------------------------------------------------
@@ -286,7 +291,7 @@ class InternalGenerate extends CallController implements InternalGenerateInterfa
     {
         if( empty($name) )
         {
-            $this->error = getErrorMessage('Error', 'emptyParameter', '1.(name)');
+            $this->error = \Errors::message('Error', 'emptyParameter', '1.(name)');
         }
 
         $eol = EOL;
@@ -605,7 +610,7 @@ class InternalGenerate extends CallController implements InternalGenerateInterfa
                 {
                     $tableData = import($databasePath . $table);
                     $file      = $table;
-                    $table     = removeExtension($table);
+                    $table     = File::removeExtension($table);
 
                     if( ! Arrays::keyExists($tableData, 'id') )
                     {
@@ -707,7 +712,7 @@ class InternalGenerate extends CallController implements InternalGenerateInterfa
 
                 foreach( $tables as $table )
                 {
-                    $dbForge->dropTable(removeExtension($table));
+                    $dbForge->dropTable(File::removeExtension($table));
                 }
             }
 

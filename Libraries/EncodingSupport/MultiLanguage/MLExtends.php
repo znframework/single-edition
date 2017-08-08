@@ -1,6 +1,6 @@
 <?php namespace ZN\EncodingSupport\MultiLanguage;
 
-use CLController, Folder;
+use CLController, Folder, Lang;
 
 class MLExtends extends CLController
 {
@@ -52,6 +52,15 @@ class MLExtends extends CLController
     protected $lang;
 
     //--------------------------------------------------------------------------------------------------------
+    // $externalLang
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // @var string:
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected $externalLang;
+
+    //--------------------------------------------------------------------------------------------------------
     // Constructor
     //--------------------------------------------------------------------------------------------------------
     //
@@ -65,13 +74,17 @@ class MLExtends extends CLController
         $mlDir = 'ML' . DS;
 
         $this->appdir = LANGUAGES_DIR . $mlDir;
+        $this->externalAppdir = EXTERNAL_LANGUAGES_DIR . $mlDir;
 
         if( ! Folder::exists($this->appdir) )
         {
             Folder::create($this->appdir, 0755);
         }
 
-        $this->lang = $this->appdir.getLang().$this->extension;
+        $getLang = Lang::get();
+
+        $this->lang = $this->appdir.$getLang.$this->extension;
+        $this->externalLang = $this->externalAppdir.$getLang.$this->extension;
     }
 
     //--------------------------------------------------------------------------------------------------------

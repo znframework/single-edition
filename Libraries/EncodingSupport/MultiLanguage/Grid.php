@@ -2,7 +2,7 @@
 
 use Method, Html, Form, URI, Pagination, Sheet, Style;
 
-class Grid extends MLExtends implements GridInterface
+class Grid extends MLExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -173,7 +173,7 @@ class Grid extends MLExtends implements GridInterface
 
         foreach( $data as $lang => $values )
         {
-            $upperLang = strtoupper($lang);
+            $upperLang = \Autoloader::upper($lang);
 
             $table .= '<form name="ML_TOP_FORM_'.$upperLang.'" method="post"'.$confirmBox.'>';
             $table .= '<td><strong>'.$upperLang.Form::hidden('ML_ALL_DELETE_HIDDEN', $lang).Form::attr($attributes['delete'])->submit('ML_ALL_DELETE_SUBMIT', $buttonNames['delete']).'</strong></td>';
@@ -244,7 +244,7 @@ class Grid extends MLExtends implements GridInterface
         foreach( $words as $key => $val )
         {
             $table .= '<tr>';
-            $table .= '<form name="ML_'.strtoupper($key).'_FORM" method="post"'.$confirmBox.'>';
+            $table .= '<form name="ML_'.\Autoloader::upper($key).'_FORM" method="post"'.$confirmBox.'>';
             $table .= '<th>'.$index++.'</th>';
             $table .= '<td>'.Form::hidden('ML_UPDATE_KEYWORD_HIDDEN', $key).$key.'</td>';
 

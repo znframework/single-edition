@@ -1,8 +1,8 @@
 <?php namespace ZN\DataTypes;
 
-use Arrays, CLController;
+use Arrays;
 
-class InternalRegex extends CLController implements InternalRegexInterface
+class InternalRegex implements InternalRegexInterface
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -13,7 +13,86 @@ class InternalRegex extends CLController implements InternalRegexInterface
     //
     //--------------------------------------------------------------------------------------------------------
 
-    const config = 'Regex';
+    //--------------------------------------------------------------------------------------------------------
+    // Regex Chars
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // Genel Kullanımı: Düzenli ifadelerde yer alan özel karakterlerle ilgili aşağıdaki
+    // değişiklikler yapılmıştır.
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected $regexChars =
+    [
+        // Patterns For Routes
+        ':numeric'                      => '(\d+$)',
+        ':alnum'                        => '(\w+$)',
+        ':alpha'                        => '([a-zA-Z]+$)',
+        ':all'                          => '(.+)',
+        ':seo'                          => '((\w+|\-)+$)',
+
+        '{nonWord}'                     => '\W+',
+        '{word}'                        => '\w+',
+        '{nonNumeric}'                  => '\D',
+        '{numeric}|{num}'               => '\d',
+        '{schar}|{specialChar}'         => '\W',
+        '{nonSchar}|{nonSpecialChar}'   => '\w',
+        '{alpha}'                       => '[a-zA-Z]',
+        '{alnum}'                       => '[a-zA-Z0-9]',
+        '{number}'                      => '[0-9]',
+        '{char}|{any}'                  => '.',
+        '{nonSpace}'                    => '\S',
+        '{space}'                       => '\s',
+        '{starting}|{start}'            => '^',
+        '{ending}|{end}'                => '$',
+        '{repeatZ}|{iterate}'           => '*',
+        '{repeat}'                      => '+',
+        '{whether}'                     => '?',
+        '{or}'                          => '|',
+        '{eolR}|{lr}|{cf}'              => '\r',
+        '{eolN}|{ln}|{lf}'              => '\n',
+        '{eol}|{crlf}|{lrln}'           => '\r\n',
+        '{lnlr}'                        => '\n\r',
+        '{tab}|{lt}|{ht}'               => '\t',
+        '{esc}|{le}'                    => '\e',
+        '{hex}|{lx}'                    => '\x'
+    ];
+
+    //--------------------------------------------------------------------------------------------------------
+    // Setting Chars
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // Genel Kullanımı: Düzenli ifadelerde oluşturulan desen sonuna konulan karakterlerle
+    // ilgili aşağıdaki değişiklikler yapılmıştır
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected $settingChars =
+    [
+        '{insens}'    => 'i',
+        '{generic}'   => 'g',
+        '{each}'      => 's',
+        '{multiline}' => 'm',
+        '{inspace}'   => 'x'
+    ];
+
+    //--------------------------------------------------------------------------------------------------------
+    // Special Chars
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // Genel Kullanımı: Düzenli ifadelerde yer alan özel karakterleri normal karakterler gibi
+    // kullanmak için aşağıdaki değişiklikler yapılmıştır.
+    //
+    //--------------------------------------------------------------------------------------------------------
+    protected $specialChars =
+    [
+        '.' => '\.',
+        '^' => '\^',
+        '$' => '\$',
+        '*' => '\*',
+        '+' => '\+',
+        '?' => '\?',
+        '|' => '\|',
+        '/' => '\/'
+    ];
 
     //--------------------------------------------------------------------------------------------------------
     // Special 2 Classic -> 4.3.2
@@ -40,9 +119,9 @@ class InternalRegex extends CLController implements InternalRegexInterface
     //--------------------------------------------------------------------------------------------------------
     public function classic2special(String $pattern, String $delimiter = '/') : String
     {
-        $specialChars = REGEX_CONFIG['specialChars'];
-        $regexChars   = Arrays::multikey(REGEX_CONFIG['regexChars']);
-        $settingChars = Arrays::multikey(REGEX_CONFIG['settingChars']);
+        $specialChars = $this->specialChars;
+        $regexChars   = Arrays::multikey($this->regexChars);
+        $settingChars = Arrays::multikey($this->settingChars);
         $pattern      = str_ireplace(array_values($regexChars), array_keys($regexChars), $pattern);
         $pattern      = str_ireplace(array_values($specialChars), array_keys($specialChars), $pattern);
 
@@ -159,16 +238,12 @@ class InternalRegex extends CLController implements InternalRegexInterface
     //--------------------------------------------------------------------------------------------------------
     protected function _regularConverting($pattern, $ex, $delimiter)
     {
-        $specialChars = REGEX_CONFIG['specialChars'];
+        $specialChars = $this->specialChars;
 
         $pattern = str_ireplace(array_keys($specialChars), array_values($specialChars), $pattern);
 
-        // Config/Regex.php dosyasından düzenlenmiş karakter
-        // listeleri alınıyor.
-        $regexChars   = Arrays::multikey(REGEX_CONFIG['regexChars']);
-
-        $settingChars = Arrays::multikey(REGEX_CONFIG['settingChars']);
-        // --------------------------------------------------------------------------------------------
+        $regexChars   = Arrays::multikey($this->regexChars);
+        $settingChars = Arrays::multikey($this->settingChars);
 
         $pattern = str_ireplace(array_keys($regexChars), array_values($regexChars), $pattern);
 

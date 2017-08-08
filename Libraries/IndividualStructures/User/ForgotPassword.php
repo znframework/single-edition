@@ -1,8 +1,8 @@
 <?php namespace ZN\IndividualStructures\User;
 
-use DB, Encode, Import, Email;
+use DB, Encode, Import, Email, URL, IS;
 
-class ForgotPassword extends UserExtends implements ForgotPasswordInterface
+class ForgotPassword extends UserExtends
 {
     //--------------------------------------------------------------------------------------------------------
     // Username
@@ -59,9 +59,9 @@ class ForgotPassword extends UserExtends implements ForgotPasswordInterface
 
         if( isset($row->$usernameColumn) )
         {
-            if( ! isUrl($returnLinkPath) )
+            if( ! IS::url($returnLinkPath) )
             {
-                $returnLinkPath = siteUrl($returnLinkPath);
+                $returnLinkPath = URL::site($returnLinkPath);
             }
 
             $encodeType     = INDIVIDUALSTRUCTURES_USER_CONFIG['encode'];
@@ -79,7 +79,7 @@ class ForgotPassword extends UserExtends implements ForgotPasswordInterface
 
             Email::sender($senderInfo['mail'], $senderInfo['name'])
                  ->receiver($email, $email)
-                 ->subject(lang('IndividualStructures', 'user:newYourPassword'))
+                 ->subject(\Lang::select('IndividualStructures', 'user:newYourPassword'))
                  ->content($message);
 
             if( Email::send() )
@@ -95,19 +95,19 @@ class ForgotPassword extends UserExtends implements ForgotPasswordInterface
 
                 if( DB::update($tableName, [$passwordColumn => $encodePassword]) )
                 {
-                    return Properties::$success = lang('IndividualStructures', 'user:forgotPasswordSuccess');
+                    return Properties::$success = \Lang::select('IndividualStructures', 'user:forgotPasswordSuccess');
                 }
 
-                return ! Properties::$error = lang('Database', 'updateError');
+                return ! Properties::$error = \Lang::select('Database', 'updateError');
             }
             else
             {
-                return ! Properties::$error = lang('IndividualStructures', 'user:emailError');
+                return ! Properties::$error = \Lang::select('IndividualStructures', 'user:emailError');
             }
         }
         else
         {
-            return ! Properties::$error = lang('IndividualStructures', 'user:forgotPasswordError');
+            return ! Properties::$error = \Lang::select('IndividualStructures', 'user:forgotPasswordError');
         }
     }
 }

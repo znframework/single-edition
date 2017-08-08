@@ -1,6 +1,8 @@
 <?php namespace ZN\IndividualStructures\Import;
 
-class Script extends BootstrapExtends implements BootstrapInterface
+use URL, IS;
+
+class Script extends BootstrapExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -36,13 +38,18 @@ class Script extends BootstrapExtends implements BootstrapInterface
 
             $scriptFile = SCRIPTS_DIR.suffix($script, ".js");
 
+            if( ! is_file($scriptFile) )
+            {
+                $scriptFile = EXTERNAL_SCRIPTS_DIR.suffix($script, ".js");
+            }
+
             if( ! in_array("script_".$script, Properties::$isImport) )
             {
                 if( is_file($scriptFile) )
                 {
-                    $str .= '<script type="text/javascript" src="'.baseUrl($scriptFile).'"></script>'.$eol;
+                    $str .= '<script type="text/javascript" src="'.URL::base($scriptFile).'"></script>'.$eol;
                 }
-                elseif( isUrl($script) )
+                elseif( IS::url($script) )
                 {
                     $str .= '<script type="text/javascript" src="'.$script.'"></script>'.$eol;
                 }

@@ -1,8 +1,8 @@
 <?php namespace ZN\IndividualStructures\User;
 
-use Encode, DB, Email, Import, URI;
+use Encode, DB, Email, Import, URI, URL, IS;
 
-class Register extends UserExtends implements RegisterInterface
+class Register extends UserExtends
 {
     //--------------------------------------------------------------------------------------------------------
     // Auto Login
@@ -59,7 +59,7 @@ class Register extends UserExtends implements RegisterInterface
 
         if( ! isset($data[$usernameColumn]) ||  ! isset($data[$passwordColumn]) )
         {
-            return ! Properties::$error = lang('IndividualStructures', 'user:registerUsernameError');
+            return ! Properties::$error = \Lang::select('IndividualStructures', 'user:registerUsernameError');
         }
 
         $loginUsername   = $data[$usernameColumn];
@@ -79,7 +79,7 @@ class Register extends UserExtends implements RegisterInterface
 
             if( ! DB::insert($tableName , $data) )
             {
-                return ! Properties::$error = lang('IndividualStructures', 'user:registerUnknownError');
+                return ! Properties::$error = \Lang::select('IndividualStructures', 'user:registerUnknownError');
             }
 
             if( ! empty($joinTables) )
@@ -94,11 +94,11 @@ class Register extends UserExtends implements RegisterInterface
                 }
             }
 
-            Properties::$success = lang('IndividualStructures', 'user:registerSuccess');
+            Properties::$success = \Lang::select('IndividualStructures', 'user:registerSuccess');
 
             if( ! empty($activationColumn) )
             {
-                if( ! isEmail($loginUsername) )
+                if( ! IS::email($loginUsername) )
                 {
                     $email = $data[$emailColumn];
                 }
@@ -125,7 +125,7 @@ class Register extends UserExtends implements RegisterInterface
         }
         else
         {
-            return ! Properties::$error = lang('IndividualStructures', 'user:registerError');
+            return ! Properties::$error = \Lang::select('IndividualStructures', 'user:registerError');
         }
     }
 
@@ -165,16 +165,16 @@ class Register extends UserExtends implements RegisterInterface
                 DB::where($usernameColumn, $user)
                   ->update($tableName, [$activationColumn => '1']);
 
-                return Properties::$success = lang('IndividualStructures', 'user:activationComplete');
+                return Properties::$success = \Lang::select('IndividualStructures', 'user:activationComplete');
             }
             else
             {
-                return ! Properties::$error = lang('IndividualStructures', 'user:activationCompleteError');
+                return ! Properties::$error = \Lang::select('IndividualStructures', 'user:activationCompleteError');
             }
         }
         else
         {
-            return ! Properties::$error = lang('IndividualStructures', 'user:activationCompleteError');
+            return ! Properties::$error = \Lang::select('IndividualStructures', 'user:activationCompleteError');
         }
     }
 
@@ -193,9 +193,9 @@ class Register extends UserExtends implements RegisterInterface
     {
         $url = suffix($activationReturnLink);
 
-        if( ! isUrl($url) )
+        if( ! IS::url($url) )
         {
-            $url = siteUrl($url);
+            $url = URL::site($url);
         }
 
         $senderInfo = INDIVIDUALSTRUCTURES_USER_CONFIG['emailSenderInfo'];
@@ -213,16 +213,16 @@ class Register extends UserExtends implements RegisterInterface
 
         Email::sender($senderInfo['mail'], $senderInfo['name'])
              ->receiver($user, $user)
-             ->subject(lang('IndividualStructures', 'user:activationProcess'))
+             ->subject(\Lang::select('IndividualStructures', 'user:activationProcess'))
              ->content($message);
 
         if( Email::send() )
         {
-            return Properties::$success = lang('IndividualStructures', 'user:activationEmail');
+            return Properties::$success = \Lang::select('IndividualStructures', 'user:activationEmail');
         }
         else
         {
-            return ! Properties::$error = lang('IndividualStructures', 'user:emailError');
+            return ! Properties::$error = \Lang::select('IndividualStructures', 'user:emailError');
         }
     }
 }

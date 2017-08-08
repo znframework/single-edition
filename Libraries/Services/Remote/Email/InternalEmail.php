@@ -1,6 +1,6 @@
 <?php namespace ZN\Services\Remote;
 
-use Support, Config, CLController, DriverAbility, InformationAbility;
+use Support, Config, CLController, DriverAbility, InformationAbility, IS;
 
 class InternalEmail extends CLController implements InternalEmailInterface
 {
@@ -386,13 +386,13 @@ class InternalEmail extends CLController implements InternalEmailInterface
     //--------------------------------------------------------------------------------------------------------
     public function charset(String $charset = 'UTF-8') : InternalEmail
     {
-        if( isCharset($charset) )
+        if( IS::charset($charset) )
         {
             $this->charset = $charset;
         }
         else
         {
-            $this->error[] = lang('Error', 'charsetParameter', '1.($charset)');
+            $this->error[] = \Lang::select('Error', 'charsetParameter', '1.($charset)');
         }
 
         return $this;
@@ -584,7 +584,7 @@ class InternalEmail extends CLController implements InternalEmailInterface
         {
             if( ! empty($to) ) foreach( $to as $key => $val )
             {
-                if( isEmail($key) )
+                if( IS::email($key) )
                 {
                     $this->{$type}[$key] = $val;
                 }
@@ -592,13 +592,13 @@ class InternalEmail extends CLController implements InternalEmailInterface
         }
         else
         {
-            if( isEmail($to) )
+            if( IS::email($to) )
             {
                 $this->{$type}[$to] = $name;
             }
             else
             {
-                return ! $this->error[] = lang('Error', 'emailParameter', '1.('.$type.')');
+                return ! $this->error[] = \Lang::select('Error', 'emailParameter', '1.('.$type.')');
             }
         }
     }
@@ -689,9 +689,9 @@ class InternalEmail extends CLController implements InternalEmailInterface
     //--------------------------------------------------------------------------------------------------------
     public function from(String $from, String $name = NULL, String $returnPath = NULL) : InternalEmail
     {
-        if( ! isEmail($from) )
+        if( ! IS::email($from) )
         {
-            ! $this->error[] = lang('Error', 'emailParameter', '1.($from)');
+            ! $this->error[] = \Lang::select('Error', 'emailParameter', '1.($from)');
         }
 
         $this->from = $from;
@@ -774,8 +774,13 @@ class InternalEmail extends CLController implements InternalEmailInterface
     //--------------------------------------------------------------------------------------------------------
     public function attachment(String $file, String $disposition = NULL, String $newName = NULL, $mime = NULL) : InternalEmail
     {
-        $mimeTypes = Config::get('MimeTypes');
-        $mime      = $mimeTypes[$mime] ?? $mime;
+        if( $mime !== NULL )
+        {
+            if( $mimes = \Mime::$mime() )
+            {
+                $mime = $mimes;
+            }
+        }
 
         if( is_array($mime) )
         {
@@ -786,12 +791,12 @@ class InternalEmail extends CLController implements InternalEmailInterface
         {
             if( strpos($file, '://') === false && ! file_exists($file) )
             {
-                $this->error[] = lang('Services', 'email:attachmentMissing', $file);
+                $this->error[] = \Lang::select('Services', 'email:attachmentMissing', $file);
             }
 
             if( ! $fp = @fopen($file, 'rb') )
             {
-                $this->error[] = lang('Services', 'email:attachmentUnreadable', $file);
+                $this->error[] = \Lang::select('Services', 'email:attachmentUnreadable', $file);
             }
 
             $fileContent = stream_get_contents($fp);
@@ -859,7 +864,7 @@ class InternalEmail extends CLController implements InternalEmailInterface
             }
             else
             {
-                return ! $this->error[] = lang('Services', 'email:noFrom');
+                return ! $this->error[] = \Lang::select('Services', 'email:noFrom');
             }
         }
 
@@ -914,7 +919,7 @@ class InternalEmail extends CLController implements InternalEmailInterface
 
         if( empty($send) )
         {
-            return ! $this->error[] = lang('Services', 'email:noSend');
+            return ! $this->error[] = \Lang::select('Services', 'email:noSend');
         }
 
         $this->_defaultVariables();
@@ -965,7 +970,7 @@ class InternalEmail extends CLController implements InternalEmailInterface
     //--------------------------------------------------------------------------------------------------------
     protected function _mimeMessage()
     {
-        return lang('Services', 'email:mimeMessage', $this->lf);
+        return \Lang::select('Services', 'email:mimeMessage', $this->lf);
     }
 
     //--------------------------------------------------------------------------------------------------------
@@ -1036,7 +1041,7 @@ class InternalEmail extends CLController implements InternalEmailInterface
 
             foreach( $email as $key => $val )
             {
-                if( isEmail($key) )
+                if( IS::email($key) )
                 {
                     $string .= "$val <$key>, ";
                 }

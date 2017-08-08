@@ -1,8 +1,8 @@
 <?php namespace ZN\ViewObjects\Javascript\Components;
 
-use Config, Arrays;
+use Config;
 
-class Pagination extends ComponentsExtends implements PaginationInterface
+class Pagination extends ComponentsExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -31,18 +31,8 @@ class Pagination extends ComponentsExtends implements PaginationInterface
         $i             = 0;
         $attr['get']   = $get;
         $attr['index'] = $i++;
+        $attr['type']  = $this->type ?? Config::get('ViewObjects', 'pagination')['type'];
 
-        $attr['type']               = $this->type               ?? Config::get('ViewObjects', 'pagination')['type'];
-        $attr['autoloadExtensions'] = $this->autoloadExtensions ?? false;
-        $attr['extensions']         = $this->extensions         ?? [];
-        $attr['attributes']         = $this->attributes         ?? [];
-        $attr['properties']         = $this->properties         ?? Arrays::removeKey($this->revolvings,
-        [
-            'autoloadExtensions', 'extensions', 'attributes', 'properties', 'type'
-        ]);
-
-        $this->defaultVariable();
-
-        return $this->load('Pagination/View', $attr);
+        return $this->prop($attr);
     }
 }

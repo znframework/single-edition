@@ -142,9 +142,9 @@ class DateTimeCommon extends Carbon
     {
         $config = $this->_chartype();
 
-        $chars = $this->config[$config];
+        $chars  = Properties::${$config};
 
-        $chars = Arrays::multikey($chars);
+        $chars  = Arrays::multikey($chars);
 
         return str_ireplace(array_keys($chars), array_values($chars), $change);
     }

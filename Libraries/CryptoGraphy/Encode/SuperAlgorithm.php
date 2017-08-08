@@ -1,6 +1,8 @@
 <?php namespace ZN\CryptoGraphy\Encode;
 
-class SuperAlgorithm extends EncodeExtends implements SuperAlgorithmInterface
+use IS;
+
+class SuperAlgorithm extends EncodeExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -24,14 +26,13 @@ class SuperAlgorithm extends EncodeExtends implements SuperAlgorithmInterface
 
         $algo = CRYPTOGRAPHY_ENCODE_CONFIG['type'];
 
-        if( ! isHash($algo) )
+        if( ! IS::hash($algo) )
         {
             $algo = 'md5';
         }
 
-        // Proje Anahatarı belirtizme bu veri yerine
-        // Proje anahtarı olarak sitenin host adresi
-        // eklenecek ek veri kabul edilir.
+        // Proje Anahtarı Belirtme
+        // Bu veri yerine Proje Anahtarı olarak sitenin host adresi, eklenecek ek veri kabul edilir.
         if( empty($projectKey) )
         {
             $additional = hash($algo, host());

@@ -2,7 +2,7 @@
 
 use Html, Form, Buffer;
 
-class GridSystem extends ComponentsExtends implements GridSystemInterface
+class GridSystem extends ComponentsExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -53,15 +53,8 @@ class GridSystem extends ComponentsExtends implements GridSystemInterface
     //--------------------------------------------------------------------------------------------------------
     public function generate(Callable $grid) : String
     {
-        $contents = Buffer::function($grid, [$this]);
+        $attr['contents'] = Buffer::function($grid, [$this]);
 
-        $attr['autoloadExtensions'] = $this->autoloadExtensions ?? false;
-        $attr['extensions']         = $this->extensions         ?? [];
-        $attr['attributes']         = $this->attributes         ?? [];
-        $attr['contents']           = $contents;
-
-        $this->defaultVariables();
-
-        return $this->load('GridSystem/View', $attr);
+        return $this->prop($attr);
     }
 }

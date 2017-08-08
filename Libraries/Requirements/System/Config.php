@@ -55,16 +55,18 @@ class Config
     {
         if( empty(self::$config[$file]) )
         {
+            $externalPath = EXTERNAL_CONFIG_DIR.suffix($file,".php");
             $projectPath  = CONFIG_DIR.suffix($file,".php");
+            $settingsPath = SETTINGS_DIR.suffix($file,".php");
+            $internalPath = INTERNAL_CONFIG_DIR.suffix($file,".php");
 
-            $allConfig    = [];
-
-            if( is_file($projectPath) )
-            {
-                $allConfig = array_merge($allConfig, (array) import($projectPath));
-            }
-
-            self::$config[$file] = $allConfig;
+            self::$config[$file] = array_merge
+            (
+                (array) import($externalPath),
+                (array) import($projectPath ),
+                (array) import($settingsPath),
+                (array) import($internalPath)
+            );
         }
     }
 

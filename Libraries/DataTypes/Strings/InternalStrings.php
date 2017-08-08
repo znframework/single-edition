@@ -2,7 +2,7 @@
 
 use Converter;
 
-class InternalStrings extends \FactoryController implements InternalStringsInterface
+class InternalStrings extends \FactoryController
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -142,10 +142,48 @@ class InternalStrings extends \FactoryController implements InternalStringsInter
     // @param string  $seperator
     // @param numeric $index
     //
+    // @return mixed
+    //
     //--------------------------------------------------------------------------------------------------------
-    public function divide(String $str, String $separator = "|", $index = 0) : String
+    public function divide(String $str = NULL, String $separator = '|', String $index = '0')
     {
-        return divide($str, $separator, $index);
+        $arrayEx = explode($separator, $str);
+
+        if( $index === 'all' )
+        {
+            return $arrayEx;
+        }
+
+        if( $index < 0 )
+        {
+            $ind = (count($arrayEx) + ($index));
+        }
+        elseif( $index === 'last' )
+        {
+            $ind = (count($arrayEx) - 1);
+        }
+        elseif( $index === 'first' )
+        {
+            $ind = 0;
+        }
+        else
+        {
+            $ind = $index;
+        }
+
+        return $arrayEx[$ind] ?? false;
+    }
+
+    //--------------------------------------------------------------------------------------------------------
+    // Split Upper Case -> 5.2.0
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // @param string $table
+    //
+    //--------------------------------------------------------------------------------------------------------
+    public function splitUpperCase(String $string) : Array
+    {
+        return preg_split('/(?=[A-Z])/', $string, -1, PREG_SPLIT_NO_EMPTY);
     }
 
     //--------------------------------------------------------------------------------------------------------

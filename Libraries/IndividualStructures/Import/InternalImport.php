@@ -1,6 +1,6 @@
 <?php namespace ZN\IndividualStructures;
 
-class InternalImport extends \FactoryController implements InternalImportInterface
+class InternalImport extends \FactoryController
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -37,7 +37,8 @@ class InternalImport extends \FactoryController implements InternalImportInterfa
             'something'  => 'Import\Something::use',
             'package'    => 'Import\Package::use',
             'theme'      => 'Import\Package::theme',
-            'plugin'     => 'Import\Package::plugin'
+            'plugin'     => 'Import\Package::plugin',
+            'resource'   => 'Import\Package::resource'
         ]
     ];
 }

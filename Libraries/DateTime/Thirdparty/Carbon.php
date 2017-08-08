@@ -21,6 +21,7 @@ use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Config;
+use Lang;
 
 /**
  * A simple API extension for DateTime
@@ -1093,9 +1094,9 @@ class Carbon extends DateTime
     protected static function translator()
     {
         if (self::$translator === null) {
-            self::$translator = new Translator(getLang());
+            self::$translator = new Translator(Lang::get());
             self::$translator->addLoader('array', new ArrayLoader());
-            self::setLocale(getLang());
+            self::setLocale(Lang::get());
         }
 
         return self::$translator;
@@ -1141,7 +1142,7 @@ class Carbon extends DateTime
     public static function setLocale($locale)
     {
         $locale = preg_replace_callback('/\b([a-z]{2})[-_](?:([a-z]{4})[-_])?([a-z]{2})\b/', function ($matches) {
-            return $matches[1].'_'.(!empty($matches[2]) ? ucfirst($matches[2]).'_' : '').strtoupper($matches[3]);
+            return $matches[1].'_'.(!empty($matches[2]) ? ucfirst($matches[2]).'_' : '').mb_strtoupper($matches[3]);
         }, strtolower($locale));
 
         if (file_exists($filename = __DIR__.'/Lang/'.$locale.'.php')) {
@@ -1181,7 +1182,7 @@ class Carbon extends DateTime
     {
         // Check for Windows to find and replace the %e
         // modifier correctly
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (mb_strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
         }
 

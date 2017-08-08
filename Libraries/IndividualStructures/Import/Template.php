@@ -3,7 +3,7 @@
 use Import;
 use ZN\IndividualStructures\Import\Exception\FileNotFoundException;
 
-class Template implements TemplateInterface
+class Template
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -25,7 +25,15 @@ class Template implements TemplateInterface
     //--------------------------------------------------------------------------------------------------------
     public function use(String $page, Array $data = NULL, Bool $obGetContents = false)
     {
-        if( $return = Import::page($page, $data, $obGetContents, TEMPLATES_DIR) )
+        if( $return = Import::page($page, $data, $obGetContents, INTERNAL_TEMPLATES_DIR) )
+        {
+            return $return;
+        }
+        elseif( $return = Import::page($page, $data, $obGetContents, TEMPLATES_DIR) )
+        {
+            return $return;
+        }
+        elseif( $return = Import::page($page, $data, $obGetContents, EXTERNAL_TEMPLATES_DIR) )
         {
             return $return;
         }

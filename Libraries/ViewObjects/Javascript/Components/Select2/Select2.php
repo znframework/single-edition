@@ -1,8 +1,6 @@
 <?php namespace ZN\ViewObjects\Javascript\Components;
 
-use Arrays;
-
-class Select2 extends ComponentsExtends implements Select2Interface
+class Select2 extends ComponentsExtends
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -34,17 +32,6 @@ class Select2 extends ComponentsExtends implements Select2Interface
         $attr['data']     = $this->data     ?? [];
         $attr['selected'] = $this->selected ?? 0;
 
-        $attr['autoloadExtensions'] = $this->autoloadExtensions ?? false;
-        $attr['extensions']         = $this->extensions         ?? [];
-        $attr['attributes']         = $this->attributes         ?? [];
-        $attr['properties']         = $this->properties         ?? Arrays::removeKey($this->revolvings,
-        [
-            'autoloadExtensions', 'extensions', 'attributes', 'properties', 'id', 'multiple',
-            'table', 'query', 'class', 'name', 'data', 'selected'
-        ]);
-
-        $this->defaultVariable();
-
-        return $this->load('Select2/View', $attr);
+        return $this->prop($attr);
     }
 }

@@ -32,10 +32,8 @@ $extensions = $extensions ?? [];
 // @extension morris
 //
 //--------------------------------------------------------------------------------------------------------
-if( ! empty($autoloadExtensions) )
-{
-    $extensions = array_merge(['jquery', 'datatables'], (array) $extensions);
-}
+
+$extensions = JC::extensions($extensions, ['jquery', 'datatables']);
 
 //--------------------------------------------------------------------------------------------------------
 // Server Side
@@ -99,7 +97,7 @@ if( ! empty($extensions) )
             <th><?php echo $column ?></th>
             <?php endforeach; ?>
             <?php if( is_callable($process) ): ?>
-            <th><?php echo lang('ViewObjects', 'dbgrid:processLabel') ?></th>
+            <th><?php echo \Lang::select('ViewObjects', 'dbgrid:processLabel') ?></th>
             <?php endif; ?>
         </tr>
     </thead>

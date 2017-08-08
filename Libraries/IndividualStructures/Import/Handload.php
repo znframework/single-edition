@@ -1,6 +1,6 @@
 <?php namespace ZN\IndividualStructures\Import;
 
-class Handload implements HandloadInterface
+class Handload
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -23,11 +23,16 @@ class Handload implements HandloadInterface
         if( ! empty($args) ) foreach( $args as $file )
         {
             $suffix     = suffix($file, '.php');
+            $commonFile = EXTERNAL_HANDLOAD_DIR.$suffix ;
             $file       = HANDLOAD_DIR.$suffix;
 
             if( is_file($file) )
             {
                 import($file); // Local File
+            }
+            elseif( is_file($commonFile) )
+            {
+                import($commonFile); // Common File
             }
         }
     }

@@ -1,9 +1,9 @@
 <?php namespace ZN\FileSystem\File;
 
-use Folder, Config;
+use Folder, Config, File;
 use ZN\FileSystem\Exception\FileNotFoundException;
 
-class Info implements InfoInterface
+class Info
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -72,7 +72,7 @@ class Info implements InfoInterface
 
         if( ! function_exists($validType) || $validType === NULL )
         {
-            die(getErrorMessage('Error', 'undefinedFunction', Classes::onlyName(get_called_class()).'::'.$type.'()'));
+            die(\Errors::message('Error', 'undefinedFunction', Classes::onlyName(get_called_class()).'::'.$type.'()'));
         }
 
         if( $validType($file) )
@@ -81,6 +81,23 @@ class Info implements InfoInterface
         }
 
         return false;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // pathInfos()
+    //--------------------------------------------------------------------------------------------------
+    //
+    // @param string $file
+    // @param string $info = 'basename'
+    //
+    // @return string
+    //
+    //--------------------------------------------------------------------------------------------------
+    public function pathInfo(String $file, String $info = 'basename') : String
+    {
+        $pathInfo = pathinfo($file);
+
+        return $pathInfo[$info] ?? false;
     }
 
     //--------------------------------------------------------------------------------------------------------
@@ -123,7 +140,7 @@ class Info implements InfoInterface
     // @param string
     //
     //--------------------------------------------------------------------------------------------------------
-    public function rpath(String $file) : String
+    public function rpath(String $file = NULL) : String
     {
         $config = Config::get('FileSystem', 'file', $this->access);
 
@@ -200,9 +217,9 @@ class Info implements InfoInterface
     // @return string
     //
     //--------------------------------------------------------------------------------------------------
-    public function absolutePath(String $string) : String
+    public function absolutePath(String $string = NULL) : String
     {
-        return absoluteRelativePath($string);
+        return str_replace([REAL_BASE_DIR, DS], [NULL, '/'], $string);
     }
 
     //--------------------------------------------------------------------------------------------------------
@@ -244,7 +261,7 @@ class Info implements InfoInterface
 
         return (object)
         [
-            'basename'   => pathInfos($file, 'basename'),
+            'basename'   => $this->pathInfo($file, 'basename'),
             'size'       => filesize($file),
             'date'       => filemtime($file),
             'readable'   => is_readable($file),
@@ -273,7 +290,7 @@ class Info implements InfoInterface
         }
 
         $size      = 0;
-        $extension = extension($file);
+        $extension = File::extension($file);
         $fileSize  = filesize($file);
 
         if( ! empty($extension) )
