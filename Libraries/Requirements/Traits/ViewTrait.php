@@ -1,8 +1,8 @@
-<?php namespace ZN\ViewObjects;
+<?php namespace Project\Controllers;
 
-use CallController;
+use Arrays, Collection, Import;
 
-class InternalSheet extends CallController implements InternalSheetInterface
+trait ViewTrait
 {
     //--------------------------------------------------------------------------------------------------------
     //
@@ -14,84 +14,86 @@ class InternalSheet extends CallController implements InternalSheetInterface
     //--------------------------------------------------------------------------------------------------------
 
     //--------------------------------------------------------------------------------------------------------
-    // Style Sheet Trait
+    // Static $data
     //--------------------------------------------------------------------------------------------------------
     //
-    // methods
+    // @var array
     //
     //--------------------------------------------------------------------------------------------------------
-    use SheetTrait;
+    public static $data = [];
 
     //--------------------------------------------------------------------------------------------------------
-    // Animation
+    // Static $data
     //--------------------------------------------------------------------------------------------------------
     //
-    // @param void
+    // @var array
     //
     //--------------------------------------------------------------------------------------------------------
-    public function animation(Bool $tag = false) : Sheet\Helpers\Animation
+    public static $usableMethods =
+    [
+        'view', 'script', 'style', 'font', 'template', 'page', 'something', 'theme', 'resource', 'plugin'
+    ];
+
+    //--------------------------------------------------------------------------------------------------------
+    // Magic Call Static
+    //--------------------------------------------------------------------------------------------------------
+    //
+    // @param string $method
+    // @param array  $parameters
+    //
+    //--------------------------------------------------------------------------------------------------------
+    public static function __callStatic($method, $parameters)
     {
-        return uselib($this->_namespace('Animation'), [$tag]);
+        self::call($method, $parameters);
+
+        return new self;
     }
 
     //--------------------------------------------------------------------------------------------------------
-    // Manipulation
+    // Magic Call
     //--------------------------------------------------------------------------------------------------------
     //
-    // @param void
+    // @param string $method
+    // @param array  $parameters
     //
     //--------------------------------------------------------------------------------------------------------
-    public function manipulation() : Sheet\Helpers\Manipulation
+    public function __call($method, $parameters)
     {
-        return uselib($this->_namespace('Manipulation'));
+        self::call($method, $parameters);
+
+        return $this;
     }
 
     //--------------------------------------------------------------------------------------------------------
-    // Shadow
+    // Call
     //--------------------------------------------------------------------------------------------------------
     //
-    // @param void
+    // @param string $method
+    // @param array  $parameters
     //
     //--------------------------------------------------------------------------------------------------------
-    public function shadow(Bool $tag = false) : Sheet\Helpers\Shadow
+    protected static function call($method, $parameters)
     {
-        return uselib($this->_namespace('Shadow'), [$tag]);
-    }
+        if( is_scalar($parameters[0]) )
+        {
+            $ex = explode(':', $parameters[0]);
 
-    //--------------------------------------------------------------------------------------------------------
-    // Transform
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @param void
-    //
-    //--------------------------------------------------------------------------------------------------------
-    public function transform(Bool $tag = false) : Sheet\Helpers\Transform
-    {
-        return uselib($this->_namespace('Transform'), [$tag]);
-    }
+            if( Arrays::valueExists(self::$usableMethods, $met = $ex[0]) )
+            {
+                $pr = Collection::data($parameters)->removeFirst()->addLast(true)->get();
 
-    //--------------------------------------------------------------------------------------------------------
-    // Transition
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @param void
-    //
-    //--------------------------------------------------------------------------------------------------------
-    public function transition(Bool $tag = false) : Sheet\Helpers\Transition
-    {
-        return uselib($this->_namespace('Transition'), [$tag]);
-    }
+                if( strstr('page|view|something', $met) && ! is_array($pr[0]) )
+                {
+                    $pr = Arrays::addFirst($pr, NULL);
+                }
 
-    //--------------------------------------------------------------------------------------------------------
-    // Protected Namespace
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @param  string class
-    // @return string
-    //
-    //--------------------------------------------------------------------------------------------------------
-    protected function _namespace($class)
-    {
-        return 'ZN\ViewObjects\Sheet\Helpers\\'.$class;
+                self::$data[$method] = $value = Import::$met($ex[1] ?? NULL, ...$pr);
+            }
+        }
+
+        if( empty($value) )
+        {
+            self::$data[$method] = $parameters[0] ?? false;
+        }
     }
 }

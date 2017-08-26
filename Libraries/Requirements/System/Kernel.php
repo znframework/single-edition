@@ -43,6 +43,11 @@ class Kernel
 
         headers(Config::get('General', 'headers'));
 
+        if( IS::timeZone($timezone = Config::get('DateTime', 'timeZone')) )
+        {
+            date_default_timezone_set($timezone);
+        }
+
         if( PROJECT_MODE !== 'publication' )
         {
             set_error_handler('Exceptions::table');
@@ -217,22 +222,21 @@ class Kernel
                         if( $viewNameType === 'file' )
                         {
                             $viewFunction = $function === $openFunction ? NULL : '-' . $function;
-                            $viewDir      = PAGES_DIR . $view . $viewFunction;
+                            $viewDir      = self::_view($view, $viewFunction);
                         }
                         else
                         {
                             $viewFunction = $function === $openFunction ? $openFunction : $function;
-                            $viewDir      = PAGES_DIR . $view . DS . $viewFunction;
+                            $viewDir      = self::_view($view, DS . $viewFunction);
                         }
 
                         $viewPath   = $viewDir . '.php';
                         $wizardPath = $viewDir . '.wizard.php';
-
-                        $pageClass = uselib($page);
+                        $pageClass  = uselib($page);
 
                         $pageClass->$function(...$parameters);
 
-                        $data = array_merge((array) $pageClass->view, View::$data, ...\ZN\In::$view);
+                        $data = (array) $pageClass->view;
 
                         if( is_file($wizardPath) && ! IS::import($viewPath) && ! IS::import($wizardPath) )
                         {
@@ -298,6 +302,24 @@ class Kernel
         }
 
         ob_end_flush();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Protected Static View -> 5.2.73
+    //--------------------------------------------------------------------------------------------------
+    //
+    // @param string $view
+    // @param strnig $fix
+    //
+    //--------------------------------------------------------------------------------------------------
+    protected static function _view($view, $fix)
+    {
+        if( $subdir = STRUCTURE_DATA['subdir'] )
+        {
+            $view = $subdir;
+        }
+
+        return PAGES_DIR . $view . $fix;
     }
 
     //--------------------------------------------------------------------------------------------------
