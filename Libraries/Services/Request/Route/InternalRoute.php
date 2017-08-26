@@ -256,7 +256,12 @@ class InternalRoute extends CLController implements InternalRouteInterface
     //--------------------------------------------------------------------------------------------------------
     public function show404(String $controllerAndMethod)
     {
-        Config::set('Services', 'route', ['show404' => $controllerAndMethod]);
+        if( empty( $this->route ) )
+        {
+            $this->change('404');
+        }
+
+        Config::set('Services', 'route', ['show404' => $this->route]);
 
         $this->uri($controllerAndMethod);
     }
@@ -786,7 +791,7 @@ class InternalRoute extends CLController implements InternalRouteInterface
         {
             if( isset($this->usable[CURRENT_CFURI]['usable']) )
             {
-                if( strpos(strtolower(URI::active()), CURRENT_CFURI) === 0 )
+                if( strpos(strtolower(URI::active()), rtrim(CURRENT_CFURI, '/main')) === 0 )
                 {
                     $this->_redirect();
                 }

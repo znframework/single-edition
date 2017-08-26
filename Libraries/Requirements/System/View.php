@@ -1,5 +1,7 @@
 <?php namespace Project\Controllers;
 
+use Import;
+
 class View
 {
     //--------------------------------------------------------------------------------------------------------
@@ -11,11 +13,11 @@ class View
     //
     //--------------------------------------------------------------------------------------------------------
 
-    public static $data = [];
+    use ViewTrait;
 
-    public static function __callStatic($method, $parameters)
+    public static function get(String $file = NULL, $usable = false)
     {
-        self::$data[$method] = $parameters[0] ?? false;
+        return Import::view($file, [], $usable);
     }
 }
 

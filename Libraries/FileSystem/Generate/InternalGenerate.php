@@ -1,6 +1,6 @@
 <?php namespace ZN\FileSystem;
 
-use CallController, Folder, File, DB, DBTool, DBForge, Arrays, Config, Json;
+use CallController, Folder, File, DB, DBTool, DBForge, Arrays, Config, Json, Post, Validation;
 
 class InternalGenerate extends CallController implements InternalGenerateInterface
 {
@@ -12,6 +12,27 @@ class InternalGenerate extends CallController implements InternalGenerateInterfa
     // Copyright  : (c) 2012-2016, znframework.com
     //
     //--------------------------------------------------------------------------------------------------------
+
+    protected $settings = [];
+
+    public function project($name)
+    {
+        Post::project($name);
+
+        Validation::rules('project', ['alpha'], 'Project Name');
+
+        if( ! $error = Validation::error('string') )
+        {
+            $source = EXTERNAL_FILES_DIR . 'DefaultProject.zip';
+            $target = PROJECTS_DIR . Post::project();
+
+            File::zipExtract($source, $target);
+
+            return true;
+        }
+
+        return false;
+    }
 
     //--------------------------------------------------------------------------------------------------------
     // Database
