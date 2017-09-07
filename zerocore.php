@@ -13,7 +13,7 @@
 //--------------------------------------------------------------------------------------------------
 // VERSION INFO CONSTANTS
 //--------------------------------------------------------------------------------------------------
-define('ZN_VERSION'          , '5.3.32');
+define('ZN_VERSION'          , '5.3.33');
 define('REQUIRED_PHP_VERSION', '7.0.0');
 //--------------------------------------------------------------------------------------------------
 
@@ -1177,6 +1177,12 @@ function internalProjectContainerDir($path = NULL) : String
         return ! empty($containers[_CURRENT_PROJECT]) && ! file_exists($containerProjectDir)
                ? PROJECTS_DIR . suffix($containers[_CURRENT_PROJECT], DS) . $path
                : $containerProjectDir;
+    }
+	
+	// 5.3.33[edited]
+    if( is_dir($containerProjectDir) )
+    {
+        return $containerProjectDir;
     }
 
     // 5.1.5 -> The enclosures can be the opening controller
