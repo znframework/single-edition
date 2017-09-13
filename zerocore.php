@@ -13,14 +13,14 @@
 //--------------------------------------------------------------------------------------------------
 // VERSION INFO CONSTANTS
 //--------------------------------------------------------------------------------------------------
-define('ZN_VERSION'          , '5.3.36');
+define('ZN_VERSION'          , '5.3.37');
 define('REQUIRED_PHP_VERSION', '7.0.0');
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
 // REQUIREMENT CONSTANTS
 //--------------------------------------------------------------------------------------------------
-define('PROJECT_TYPE'                , 'SE'                                                       );
+define('PROJECT_TYPE'                , 'SE'                                                      );
 define('DS'                          , DIRECTORY_SEPARATOR                                        );
 define('REAL_BASE_DIR'               , realpath(__DIR__) . DS                                     );
 define('INTERNAL_DIR' , REAL_BASE_DIR . (PROJECT_TYPE === 'SE' ? 'Libraries' : 'Internal') . DS   );
@@ -80,7 +80,7 @@ define('ROUTES_DIR'            , internalProjectContainerDir('Routes')     );
 define('EXTERNAL_ROUTES_DIR'   , EXTERNAL_DIR.'Routes'.DS                  );
 define('DATABASES_DIR'         , internalProjectContainerDir('Databases')  );
 define('CONFIG_DIR'            , internalProjectContainerDir('Config')     );
-define('STORAGE_DIR'           , PROJECT_DIR.'Storage'.DS                  );
+define('STORAGE_DIR'           , internalProjectContainerDir('Storage')    );
 define('COMMANDS_DIR'          , internalProjectContainerDir('Commands')   );
 define('EXTERNAL_COMMANDS_DIR' , EXTERNAL_DIR.'Commands'.DS                );
 define('RESOURCES_DIR'         , internalProjectContainerDir('Resources')  );
@@ -138,28 +138,10 @@ import(REQUIREMENTS_DIR . 'Autoloader.php');
 //
 //--------------------------------------------------------------------------------------------------
 define('SSL_STATUS'  , ! Config::get('Services','uri')['ssl'] ? 'http://' : 'https://');
-define('INDEX_STATUS', ! Config::get('Htaccess', 'uri')['directoryIndex'] ? '' : suffix(DIRECTORY_INDEX));
-//--------------------------------------------------------------------------------------------------
-
-//--------------------------------------------------------------------------------------------------
-// Structure Data
-//--------------------------------------------------------------------------------------------------
-//
-// Current Controller Constants
-//
-//--------------------------------------------------------------------------------------------------
-define('STRUCTURE_DATA'     , ZN\Core\Structure::data()                );
-define('CURRENT_COPEN_PAGE' , STRUCTURE_DATA['openFunction']           );
-define('CURRENT_CPARAMETERS', STRUCTURE_DATA['parameters']             );
-define('CURRENT_CFILE'      , STRUCTURE_DATA['file']                   );
-define('CURRENT_CFUNCTION'  , STRUCTURE_DATA['function']               );
-define('CURRENT_CPAGE'      , ($page = STRUCTURE_DATA['page']) . '.php');
-define('CURRENT_CONTROLLER' , $page                                    );
-define('CURRENT_CNAMESPACE' , $namespace = STRUCTURE_DATA['namespace'] );
-define('CURRENT_CCLASS'     , $namespace . CURRENT_CONTROLLER          );
-define('CURRENT_CFPATH'     , str_replace(CONTROLLERS_DIR, '', CURRENT_CONTROLLER).'/'.CURRENT_CFUNCTION);
-define('CURRENT_CFURI'      , strtolower(CURRENT_CFPATH)               );
-define('CURRENT_CFURL'      , siteUrl(CURRENT_CFPATH)                  );
+define('INDEX_STATUS', ! Config::get('Htaccess', 'uri')['directoryIndex']
+                       ? ''
+                       : suffix(DIRECTORY_INDEX)
+);
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
@@ -187,6 +169,30 @@ define('STYLES_URL'   , URL::base(STYLES_DIR)   );
 define('THEMES_URL'   , URL::base(THEMES_DIR)   );
 define('UPLOADS_URL'  , URL::base(UPLOADS_DIR)  );
 define('RESOURCES_URL', URL::base(RESOURCES_DIR));
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+// Structure Data
+//--------------------------------------------------------------------------------------------------
+//
+// Current Controller Constants
+//
+//--------------------------------------------------------------------------------------------------
+define('STRUCTURE_DATA'     , ZN\Core\Structure::data()                );
+define('CURRENT_COPEN_PAGE' , STRUCTURE_DATA['openFunction']           );
+define('CURRENT_CPARAMETERS', STRUCTURE_DATA['parameters']             );
+define('CURRENT_CFILE'      , STRUCTURE_DATA['file']                   );
+define('CURRENT_CFUNCTION'  , STRUCTURE_DATA['function']               );
+define('CURRENT_CPAGE'      , ($page = STRUCTURE_DATA['page']) . '.php');
+define('CURRENT_CONTROLLER' , $page                                    );
+define('CURRENT_CNAMESPACE' , $namespace = STRUCTURE_DATA['namespace'] );
+define('CURRENT_CCLASS'     , $namespace . CURRENT_CONTROLLER          );
+define('CURRENT_CFPATH'     , str_replace
+(
+    CONTROLLERS_DIR, '', CURRENT_CONTROLLER) . '/' . CURRENT_CFUNCTION
+);
+define('CURRENT_CFURI'      , strtolower(CURRENT_CFPATH)               );
+define('CURRENT_CFURL'      , SITE_URL . CURRENT_CFPATH                );
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
@@ -1080,26 +1086,7 @@ function compare(String $p1, String $operator, String $p2) : Bool
 //--------------------------------------------------------------------------------------------------
 function suffix(String $string = NULL, String $fix = '/') : String
 {
-    if( strlen($fix) <= strlen($string) )
-    {
-        $suffix = substr($string, -strlen($fix));
-
-        if( $suffix !== $fix)
-        {
-            $string = $string.$fix;
-        }
-    }
-    else
-    {
-        $string = $string.$fix;
-    }
-
-    if( $string === '/' )
-    {
-        return false;
-    }
-
-    return $string;
+    return prefix($string, $fix, __FUNCTION__);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1112,23 +1099,25 @@ function suffix(String $string = NULL, String $fix = '/') : String
 // @return string
 //
 //--------------------------------------------------------------------------------------------------
-function prefix(String $string = NULL, String $fix = '/') : String
+function prefix(String $string = NULL, String $fix = '/', $type = __FUNCTION__) : String
 {
+    $stringFix = $type === 'prefix' ? $fix . $string : $string . $fix;
+
     if( strlen($fix) <= strlen($string) )
     {
-        $prefix = substr($string, 0, strlen($fix));
+        $prefix = $type === 'prefix' ? substr($string, 0, strlen($fix)) : substr($string, -strlen($fix));
 
         if( $prefix !== $fix )
         {
-            $string = $fix.$string;
+            $string = $stringFix;
         }
     }
     else
     {
-        $string = $fix.$string;
+        $string = $stringFix;
     }
 
-    if( $string === '/' )
+    if( $string === $fix )
     {
         return false;
     }
@@ -1148,7 +1137,7 @@ function prefix(String $string = NULL, String $fix = '/') : String
 //--------------------------------------------------------------------------------------------------
 function presuffix(String $string = NULL, String $fix = '/') : String
 {
-    return suffix(prefix(empty($string) ? $fix.$string.$fix : $string, $fix), $fix);
+    return suffix(prefix(empty($string) ? $fix . $string . $fix : $string, $fix), $fix);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1178,8 +1167,8 @@ function internalProjectContainerDir($path = NULL) : String
                ? PROJECTS_DIR . suffix($containers[_CURRENT_PROJECT], DS) . $path
                : $containerProjectDir;
     }
-	
-	// 5.3.33[edited]
+
+    // 5.3.33[edited]
     if( is_dir($containerProjectDir) )
     {
         return $containerProjectDir;
