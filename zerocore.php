@@ -13,14 +13,14 @@
 //--------------------------------------------------------------------------------------------------
 // VERSION INFO CONSTANTS
 //--------------------------------------------------------------------------------------------------
-define('ZN_VERSION'          , '5.3.62');
+define('ZN_VERSION'          , '5.3.63');
 define('REQUIRED_PHP_VERSION', '7.0.0');
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
 // REQUIREMENT CONSTANTS
 //--------------------------------------------------------------------------------------------------
-define('PROJECT_TYPE'                , 'SE'                                                      );
+define('PROJECT_TYPE'                , 'SE'                                                       );
 define('DS'                          , DIRECTORY_SEPARATOR                                        );
 define('REAL_BASE_DIR'               , realpath(__DIR__) . DS                                     );
 define('INTERNAL_DIR' , REAL_BASE_DIR . (PROJECT_TYPE === 'SE' ? 'Libraries' : 'Internal') . DS   );
@@ -520,7 +520,7 @@ function redirect(String $url = NULL, Int $time = 0, Array $data = NULL, Bool $e
 //--------------------------------------------------------------------------------------------------
 function redirectData(String $k)
 {
-    Redirect::selectData($k);
+    return Redirect::selectData($k);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -534,7 +534,7 @@ function redirectData(String $k)
 //--------------------------------------------------------------------------------------------------
 function redirectDeleteData($data) : Bool
 {
-    Redirect::deleteData($data);
+    return Redirect::deleteData($data);
 }
 
 //--------------------------------------------------------------------------------------------------
