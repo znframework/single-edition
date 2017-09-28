@@ -20,7 +20,7 @@ define('REQUIRED_PHP_VERSION', '7.0.0');
 //--------------------------------------------------------------------------------------------------
 // REQUIREMENT CONSTANTS
 //--------------------------------------------------------------------------------------------------
-define('PROJECT_TYPE'                , 'SE'                                                      );
+define('PROJECT_TYPE'                , 'SE'                                                       );
 define('DS'                          , DIRECTORY_SEPARATOR                                        );
 define('REAL_BASE_DIR'               , realpath(__DIR__) . DS                                     );
 define('INTERNAL_DIR' , REAL_BASE_DIR . (PROJECT_TYPE === 'SE' ? 'Libraries' : 'Internal') . DS   );
@@ -1211,15 +1211,15 @@ function internalProjectContainerDir($path = NULL) : String
 }
 
 //--------------------------------------------------------------------------------------------------
-// Internal Current Project
+// Internal Is Writable
 //--------------------------------------------------------------------------------------------------
 //
-// @param void
+// @param string $path
 //
 //--------------------------------------------------------------------------------------------------
-function internalCurrentProject()
+function internalIsWritable(String $path)
 {
-    if( is_file('.htaccess') && ! is_writable('.htaccess') )
+    if( is_file($path) && ! is_writable($path) )
     {
         trace
         (
@@ -1230,6 +1230,18 @@ function internalCurrentProject()
             to see how to configure file permissions.'
         );
     }
+}
+
+//--------------------------------------------------------------------------------------------------
+// Internal Current Project
+//--------------------------------------------------------------------------------------------------
+//
+// @param void
+//
+//--------------------------------------------------------------------------------------------------
+function internalCurrentProject()
+{
+    internalIsWritable('.htaccess');
 
     if( PROJECT_TYPE === 'SE' )
     {
