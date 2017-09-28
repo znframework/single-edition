@@ -13,14 +13,14 @@
 //--------------------------------------------------------------------------------------------------
 // VERSION INFO CONSTANTS
 //--------------------------------------------------------------------------------------------------
-define('ZN_VERSION'          , '5.3.63');
+define('ZN_VERSION'          , '5.3.7');
 define('REQUIRED_PHP_VERSION', '7.0.0');
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
 // REQUIREMENT CONSTANTS
 //--------------------------------------------------------------------------------------------------
-define('PROJECT_TYPE'                , 'SE'                                                       );
+define('PROJECT_TYPE'                , 'SE'                                                      );
 define('DS'                          , DIRECTORY_SEPARATOR                                        );
 define('REAL_BASE_DIR'               , realpath(__DIR__) . DS                                     );
 define('INTERNAL_DIR' , REAL_BASE_DIR . (PROJECT_TYPE === 'SE' ? 'Libraries' : 'Internal') . DS   );
@@ -1219,6 +1219,18 @@ function internalProjectContainerDir($path = NULL) : String
 //--------------------------------------------------------------------------------------------------
 function internalCurrentProject()
 {
+    if( ! is_writable('/') )
+    {
+        trace
+        (
+            'Please check the [file permissions]. Click the 
+                <a target="_blank" style="text-decoration:none" href="https://docs.znframework.com/getting-started/installation-instructions#sh42">
+                    [documentation]
+                </a> 
+            to see how to configure file permissions.'
+        );
+    }
+
     if( PROJECT_TYPE === 'SE' )
     {
         define('CURRENT_PROJECT', NULL);
