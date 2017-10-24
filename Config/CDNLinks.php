@@ -52,7 +52,9 @@
         'select2'                    => 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
         'flexSlider'                 => 'https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.6.3/jquery.flexslider.js',
         'ace'                        => 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js',
-        'sweetAlert'                 => 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js'
+        'sweetAlert'                 => 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js',
+        'dropzone'                   => 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/min/dropzone.min.js',
+        'tinymce'                    => 'https://cloud.tinymce.com/stable/tinymce.min.js'
     ],
 
     //----------------------------------------------------------------------------------------------
@@ -85,7 +87,8 @@
         'datepicker'              => 'https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css',
         'select2'                 => 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css',
         'flexSlider'              => 'https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.6.3/flexslider.css',
-        'sweetAlert'              => 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css'
+        'sweetAlert'              => 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css',
+        'dropzone'                => 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/min/dropzone.min.css'
     ],
 
     //----------------------------------------------------------------------------------------------
