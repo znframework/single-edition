@@ -9,11 +9,11 @@
     //
     // Example
     //
-    // Hook::general('example');
+    // Hook::project('example');
     //
     //--------------------------------------------------------------------------------------------------
    
-    'general' => function(String $name)
+    'project' => function(String $name)
     {
         return $name;
     }
