@@ -1,30 +1,38 @@
 #!/usr/bin/env php
 <?php
-//--------------------------------------------------------------------------------------------------
-// ZERONEED PHP WEB FRAMEWORK
-//--------------------------------------------------------------------------------------------------
-//
-// Author     : Ozan UYKUN <ozanbote@windowslive.com> | <ozanbote@gmail.com>
-// Site       : www.znframework.com
-// License    : The MIT License
-// Copyright  : Copyright (c) 2012-2016, ZN Framework
-//
-//--------------------------------------------------------------------------------------------------
+/*
+|--------------------------------------------------------------------------
+| Project Name
+|--------------------------------------------------------------------------
+|
+| The project to be processed is selected.
+|
+*/
 
-//--------------------------------------------------------------------------------------------------
-// Executing Zero Core Processor
-//--------------------------------------------------------------------------------------------------
-//
-// PHP istemcisine komutlar göndermeniz gerektiği zaman özellikle bir kod bluğunun çalıştırılması
-// gerektiği durumlarda ZN Framework'ün mevcut yapılarından yararlanabilmek adına oluşturulmuştur.
-// Bu dosya sayesinde Exec yöntemleri ile ZN kodlarınızı çalıştırabilirsiniz.
-//
-//--------------------------------------------------------------------------------------------------
 if( ($argv[1] ?? NULL) === 'project-name' )
 {
     define('CONSOLE_PROJECT_NAME', $argv[2]);
 }
 
+/*
+|--------------------------------------------------------------------------
+| Require zerocore.php
+|--------------------------------------------------------------------------
+|
+| The file containing the system and basic structures is included.
+|
+*/
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'zerocore.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run Console
+|--------------------------------------------------------------------------
+|
+| It was created in order to use the existing frameworks of the ZN 
+| when you need to send commands to the PHP client via the console.
+|
+*/
 
 Console::run($argv);
