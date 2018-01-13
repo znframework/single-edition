@@ -19,8 +19,8 @@
 | Config/ClassMap.php file. Subsequent calls are made from this file.
 |
 */
-
-require REQUIREMENTS_DIR . 'Autoloader.php';
+ 
+require REQUIREMENTS_DIR . 'vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ require REQUIREMENTS_DIR . 'Autoloader.php';
 |
 */
 
-Autoloader::defines('5.5.35', 'Nikola Tesla');
+Autoloader::defines('5.6.0', 'Nikola Tesla');
 
 /*
 |--------------------------------------------------------------------------
