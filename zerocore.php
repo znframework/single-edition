@@ -20,7 +20,7 @@
 |
 */
  
-require __DIR__ . '/vendor/autoload.php';
+require REQUIREMENTS_DIR . 'Autoloader.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ require __DIR__ . '/vendor/autoload.php';
 |
 */
 
-Autoloader::defines('5.6.0', 'Nikola Tesla');
+ZN\Autoloader::defines('5.6.0', 'Nikola Tesla');
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ layer('Top');
 |
 */
 
-Autoloader::register();
+ZN\Autoloader::register();
 
 /*
 |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ Autoloader::register();
 |
 */
 
-ZN\Services\URL::defines();
+ZN\Request\URL::defines();
 
 /*
 |--------------------------------------------------------------------------
@@ -90,4 +90,4 @@ layer('TopBottom');
 |
 */
 
-ZN\Core\Structure::defines();
+ZN\Structure::defines();

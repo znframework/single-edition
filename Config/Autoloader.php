@@ -38,13 +38,9 @@
 
     'classMap' =>
     [
-        INTERNAL_DIR,
         LIBRARIES_DIR,
-        EXTERNAL_LIBRARIES_DIR,
         MODELS_DIR,
-        EXTERNAL_MODELS_DIR,
-        COMMANDS_DIR,
-        EXTERNAL_COMMANDS_DIR
+        COMMANDS_DIR
     ],
 
     /*
@@ -56,7 +52,19 @@
     |
     */
 
-    'aliases' => [],
+    'aliases' => 
+    [
+        # ZN\Request
+        'Http'      => 'ZN\Request\Http',
+        'Server'    => 'ZN\Request\Method',
+        'Request'   => 'ZN\Request\Request',
+        'Method'    => 'ZN\Request\Method',
+
+        # ZN\Inclusion\Projection
+        'Project\Controllers\Masterpage' => 'ZN\Inclusion\Project\Masterpage',
+        'Project\Controllers\View'       => 'ZN\Inclusion\Project\View',
+        'Project\Controllers\Theme'      => 'ZN\Inclusion\Project\Theme',
+    ],
 
     /*
     |--------------------------------------------------------------------------
