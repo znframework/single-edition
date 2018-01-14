@@ -20,7 +20,7 @@
 |
 */
  
-require REQUIREMENTS_DIR . 'Autoloader.php';
+require ZEROCORE . 'Autoloader.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -55,17 +55,6 @@ layer('Top');
 */
 
 ZN\Autoloader::register();
-
-/*
-|--------------------------------------------------------------------------
-| URL & Path Constants
-|--------------------------------------------------------------------------
-|
-| It keeps the path information to be used for various purposes.
-|
-*/
-
-ZN\Request\URL::defines();
 
 /*
 |--------------------------------------------------------------------------
