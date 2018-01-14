@@ -19,8 +19,8 @@
 | Config/ClassMap.php file. Subsequent calls are made from this file.
 |
 */
- 
-require ZEROCORE . 'Autoloader.php';
+
+require REQUIREMENTS_DIR . 'Autoloader.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ require ZEROCORE . 'Autoloader.php';
 |
 */
 
-ZN\Autoloader::defines('5.6.0', 'Nikola Tesla');
+Autoloader::defines('5.5.36', 'Nikola Tesla');
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +54,18 @@ layer('Top');
 |
 */
 
-ZN\Autoloader::register();
+Autoloader::register();
+
+/*
+|--------------------------------------------------------------------------
+| URL & Path Constants
+|--------------------------------------------------------------------------
+|
+| It keeps the path information to be used for various purposes.
+|
+*/
+
+ZN\Services\URL::defines();
 
 /*
 |--------------------------------------------------------------------------
@@ -79,4 +90,4 @@ layer('TopBottom');
 |
 */
 
-ZN\Structure::defines();
+ZN\Core\Structure::defines();
