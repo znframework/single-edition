@@ -38,14 +38,10 @@
 
     'classMap' =>
     [
-        # INTERNAL_DIR,
         LIBRARIES_DIR,
-        EXTERNAL_LIBRARIES_DIR,
         CONTROLLERS_DIR,
         MODELS_DIR,
-        EXTERNAL_MODELS_DIR,
-        COMMANDS_DIR,
-        EXTERNAL_COMMANDS_DIR
+        COMMANDS_DIR
     ],
 
     /*
