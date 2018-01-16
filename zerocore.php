@@ -20,7 +20,18 @@
 |
 */
 
-require REQUIREMENTS_DIR . 'Autoloader.php';
+require ZEROCORE . 'Autoloader.php';
+
+/*
+|--------------------------------------------------------------------------
+| Autoload Register
+|--------------------------------------------------------------------------
+|
+| Enables class loading by automatically activating the object call.
+|
+*/
+
+ZN\Autoloader::register();
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +42,8 @@ require REQUIREMENTS_DIR . 'Autoloader.php';
 |
 */
 
-Autoloader::defines('5.5.37', 'Nikola Tesla');
+
+ZN\Autoloader::defines('5.6.0', 'Nikola Tesla');
 
 /*
 |--------------------------------------------------------------------------
@@ -43,29 +55,7 @@ Autoloader::defines('5.5.37', 'Nikola Tesla');
 |
 */
 
-layer('Top');
-
-/*
-|--------------------------------------------------------------------------
-| Autoload Register
-|--------------------------------------------------------------------------
-|
-| Enables class loading by automatically activating the object call.
-|
-*/
-
-Autoloader::register();
-
-/*
-|--------------------------------------------------------------------------
-| URL & Path Constants
-|--------------------------------------------------------------------------
-|
-| It keeps the path information to be used for various purposes.
-|
-*/
-
-ZN\Services\URL::defines();
+ZN\Base::layer('Top');
 
 /*
 |--------------------------------------------------------------------------
@@ -79,7 +69,7 @@ ZN\Services\URL::defines();
 |
 */
 
-layer('TopBottom');
+ZN\Base::layer('TopBottom');
 
 /*
 |--------------------------------------------------------------------------
@@ -90,4 +80,4 @@ layer('TopBottom');
 |
 */
 
-ZN\Core\Structure::defines();
+ZN\Structure::defines();

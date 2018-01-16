@@ -56,7 +56,7 @@
         'host'        => 'localhost',
         'database'    => 'test',
         'user'        => 'root',
-        'password'    => '',
+        'password'    => '6340hayal',
         'dsn'         => '',
         'server'      => '',
         'port'        => '',

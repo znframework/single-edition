@@ -6,5 +6,5 @@ class Home extends Controller
     {  
         View::pageTitle('ZN')
             ->pageSubtitle('"Simplicity is the ultimate sophistication" - Da Vinci');
-    }
+    } 
 }

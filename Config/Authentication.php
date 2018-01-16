@@ -2,25 +2,6 @@
 [
     /*
     |--------------------------------------------------------------------------
-    | Socialite
-    |--------------------------------------------------------------------------
-    |
-    | Used to create provider configurations for the Socialite library.
-    |
-    | 'github' => 
-    | [
-    |     'id'     => 'your-app-id',
-    |     'secret' => 'your-app-secret'
-    | ],
-    |
-    | ...
-    |
-    */
-
-    'socialite' => [],
-
-    /*
-    |--------------------------------------------------------------------------
     | User
     |--------------------------------------------------------------------------
     |
@@ -40,33 +21,30 @@
     |
     */
 
-    'user' =>
+    'encode'   => 'super',
+    'matching' =>
     [
-        'encode'   => 'super',
-        'matching' =>
+        'table'   => '',
+        'columns' =>
         [
-            'table'   => '',
-            'columns' =>
-            [
-                'username'     => '', # Required
-                'password'     => '', # Required
-                'email'        => '', # Relative
-                'active'       => '', # Relative
-                'banned'       => '', # Relative
-                'activation'   => '', # Relative
-                'verification' => '', # Rleative
-                'otherLogin'   => []  # Relative
-            ]
-        ],
-        'joining' =>
-        [
-            'column' => '',
-            'tables' => []
-        ],
-        'emailSenderInfo' =>
-        [
-            'name' => '',
-            'mail' => ''
+            'username'     => '', # Required
+            'password'     => '', # Required
+            'email'        => '', # Relative
+            'active'       => '', # Relative
+            'banned'       => '', # Relative
+            'activation'   => '', # Relative
+            'verification' => '', # Rleative
+            'otherLogin'   => []  # Relative
         ]
+    ],
+    'joining' =>
+    [
+        'column' => '',
+        'tables' => []
+    ],
+    'emailSenderInfo' =>
+    [
+        'name' => '',
+        'mail' => ''
     ]
 ];

@@ -1,4 +1,4 @@
-<?php $lang = Lang::select('ViewObjects'); return
+<?php return
 [
     /*
     |--------------------------------------------------------------------------
@@ -136,98 +136,6 @@
 
     /*
     |--------------------------------------------------------------------------
-    | Calendar
-    |--------------------------------------------------------------------------
-    |
-    | Includes default settings for the calendar.
-    |
-    */
-
-    'calendar' =>
-    [
-        'prevName'      => '<<',
-        'nextName'      => '>>',
-        'dayType'       => 'short',
-        'monthType'     => 'long',
-        'type'          => 'classic', # classic, ajax
-        'class'         =>
-        [
-            'table'     => '',
-            'monthName' => '',
-            'dayName'   => '',
-            'days'      => '',
-            'links'     => '',
-            'current'   => '',
-        ],
-        'style'         =>
-        [
-            'table'     => '',
-            'monthName' => '',
-            'dayName'   => '',
-            'days'      => '',
-            'links'     => '',
-            'current'   => '',
-        ],
-        'monthNames'    =>
-        [
-            'tr' =>
-            [
-                'Ocak'      => 'Oca',
-                'Şubat'     => 'Şub',
-                'Mart'      => 'Mar',
-                'Nisan'     => 'Nis',
-                'Mayıs'     => 'May',
-                'Haziran'   => 'Haz',
-                'Temmuz'    => 'Tem',
-                'Ağustos'   => 'Ağu',
-                'Eylül'     => 'Eyl',
-                'Ekim'      => 'Eki',
-                'Kasım'     => 'Kas',
-                'Aralık'    => 'Ara'
-            ],
-            'en' =>
-            [
-                'January'   => 'Jan',
-                'February'  => 'Feb',
-                'March'     => 'Mar',
-                'April'     => 'Apr',
-                'May'       => 'May',
-                'June'      => 'Jun',
-                'July'      => 'Jul',
-                'August'    => 'Aug',
-                'September' => 'Sep',
-                'October'   => 'Oct',
-                'November'  => 'Nov',
-                'December'  => 'Dec'
-            ]
-        ],
-        'dayNames' =>
-        [
-            'tr' =>
-            [
-                'Pazartesi' => 'Pzt',
-                'Salı'      => 'Sal',
-                'Çarşamba'  => 'Çar',
-                'Perşembe'  => 'Per',
-                'Cuma'      => 'Cum',
-                'Cumartesi' => 'Cts',
-                'Pazar'     => 'Paz'
-            ],
-            'en' =>
-            [
-                'Monday'    => 'Mon',
-                'Tuesday'   => 'Tue',
-                'Wednesday' => 'Wed',
-                'Thursday'  => 'Thu',
-                'Friday'    => 'Fri',
-                'Saturday'  => 'Sat',
-                'Sunday'    => 'Sun'
-            ]
-        ]
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Datagrid
     |--------------------------------------------------------------------------
     |
@@ -235,23 +143,23 @@
     |
     */
 
-    'datagrid' =>
+    'dbgrid' =>
     [
         'buttonNames' =>
         [
-            'add'           => $lang['dbgrid:addButton'],
-            'edit'          => $lang['dbgrid:editButton'],
-            'update'        => $lang['dbgrid:updateButton'],
-            'save'          => $lang['dbgrid:saveButton'],
-            'close'         => $lang['dbgrid:closeButton'],
-            'delete'        => $lang['dbgrid:deleteButton'],
-            'deleteSelected'=> $lang['dbgrid:deleteSelectedName'],
-            'deleteAll'     => $lang['dbgrid:deleteAllName']
+            'add'           => ($lang = Lang::select('Database'))['addButton'],
+            'edit'          => $lang['editButton'],
+            'update'        => $lang['updateButton'],
+            'save'          => $lang['saveButton'],
+            'close'         => $lang['closeButton'],
+            'delete'        => $lang['deleteButton'],
+            'deleteSelected'=> $lang['deleteSelectedName'],
+            'deleteAll'     => $lang['deleteAllName']
         ],
         'placeHolders' =>
         [
-            'search' => $lang['dbgrid:searchHolder'],
-            'inputs' => $lang['dbgrid:inputsHolder'],
+            'search' => $lang['searchHolder'],
+            'inputs' => $lang['inputsHolder'],
         ],
         'styleElement' =>
         [
@@ -264,13 +172,13 @@
             'editTables'    => ['style' => 'font-family:Arial; color:#888; font-size:14px;'],
             'columns'       => ['height' => 75, 'style' => 'text-decoration:none; color:#0085B2'],
             'search'        => ['style' => 'height:34px; color:#0085B2; border:solid 1px #0085B2; text-indent:10px'],
-            'add'           => ['style' => 'height:34px; color:#0085B2; background:none; border:solid 1px #0085B2; cursor:pointer'],
-            'deleteSelected'=> ['style' => 'height:34px; color:#0085B2; background:none; border:solid 1px #0085B2; cursor:pointer'],
-            'deleteAll'     => ['style' => 'height:34px; color:#0085B2; background:none; border:solid 1px #0085B2; cursor:pointer'],
-            'save'          => ['style' => 'height:34px; color:#0085B2; background:none; border:solid 1px #0085B2; cursor:pointer'],
-            'update'        => ['style' => 'height:34px; color:#0085B2; background:none; border:solid 1px #0085B2; cursor:pointer'],
-            'delete'        => ['style' => 'height:34px; color:#0085B2; background:none; border:solid 1px #0085B2; cursor:pointer'],
-            'edit'          => ['style' => 'height:34px; color:#0085B2; background:none; border:solid 1px #0085B2; cursor:pointer'],
+            'add'           => ['style' => $style = 'height:34px; color:#0085B2; background:none; border:solid 1px #0085B2; cursor:pointer'],
+            'deleteSelected'=> ['style' => $style],
+            'deleteAll'     => ['style' => $style],
+            'save'          => ['style' => $style],
+            'update'        => ['style' => $style],
+            'delete'        => ['style' => $style],
+            'edit'          => ['style' => $style],
             'listTables'    => [],
             'inputs'        =>
             [
@@ -285,20 +193,76 @@
         [
             'style' =>
             [
-                'links' => 'color:#0085B2;
-                            width:30px; height:30px;
-                            text-align:center;
-                            padding-top:4px;
-                            display:inline-block;
-                            background:white;
-                            border:solid 1px #ddd;
-                            border-radius: 4px;
-                            -webkit-border-radius: 4px;
-                            -moz-border-radius: 4px;
-                            text-decoration:none;',
-
+                'links'   => 'color:#0085B2;width:30px; height:30px;text-align:center;padding-top:4px;display:inline-block;background:white;border:solid 1px #ddd;border-radius: 4px;-webkit-border-radius: 4px;-moz-border-radius: 4px;text-decoration:none;',
                 'current' => 'font-weight:bold;'
             ]
+        ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | ML Grid
+    |--------------------------------------------------------------------------
+    |
+    | It edits the table created by the ML::table() method.
+    |
+    | labels      : It arranges the names of the labels on the table.
+    | buttonNames : It arranges the names of the buttons on the table.
+    | placeHolders: It arranges the placeholder of the text fields on the table.
+    | styleElement: Used to give built-in style to the table.
+    | attributes  : Used to add attributes to objects in the table.
+    | pagination  : It arranges the pagination bar on the table.
+    |
+    */
+
+    'mlgrid' =>
+    [
+        'labels' =>
+        [
+            'title'    => ($lang = Lang::select('Language'))['ml:titleLabel'],
+            'confirm'  => $lang['ml:confirmLabel'],
+            'process'  => $lang['ml:processLabel'],
+            'keywords' => $lang['ml:keywordsLabel'],
+        ],
+        'buttonNames' =>
+        [
+            'add'    => $lang['ml:addButton'],
+            'update' => $lang['ml:updateButton'],
+            'delete' => $lang['ml:deleteButton'],
+            'clear'  => $lang['ml:clearButton'],
+            'search' => $lang['ml:searchButton']
+        ],
+        'placeHolders' =>
+        [
+            'keyword'     => $lang['ml:keywordPlaceHolder'],
+            'addLanguage' => $lang['ml:addLanguagePlaceHolder'],
+            'search'      => $lang['ml:searchPlaceHolder']
+        ],
+        'styleElement' =>
+        [
+            #'#ML_TABLE tr:nth-child(even)' => ['background' => '#E6F9FF'],
+            #'#ML_TABLE tr:nth-child(odd)'  => ['background' => '#FFF']
+        ],
+        'attributes'    =>
+        [
+            'table'   => ['class' => 'table table-bordered table-hover table-striped'],
+            'add'     => ['style' => 'height:30px; color:#0085B2; background:none; border:solid 1px #ccc; cursor:pointer; border-radius:4px'],
+            'update'  => ['style' => 'height:30px; color:#0085B2; background:none; border:solid 1px #ccc; cursor:pointer; border-radius:4px'],
+            'delete'  => ['style' => 'height:30px; color:#0085B2; background:none; border:solid 1px #ccc; cursor:pointer; border-radius:4px'],
+            'clear'   => ['style' => 'height:30px; color:#0085B2; background:none; border:solid 1px #ccc; cursor:pointer; border-radius:4px'],
+            'textbox' => ['style' => 'height:30px; color:#0085B2; border:solid 1px #ccc; text-indent:10px; border-radius:4px']
+        ],
+        'pagination' =>
+        [
+            'style' =>
+            [
+                'links' => 'color:#0085B2; width:30px; height:30px; text-align:center; padding-top:4px;
+                            display:inline-block; background:white; border:solid 1px #ddd; border-radius: 4px;
+                            -webkit-border-radius: 4px; -moz-border-radius: 4px;text-decoration:none;',
+
+                'current' => 'font-weight:bold;'
+            ],
+            'class' => []
         ]
     ]
 ];
