@@ -1,4 +1,4 @@
-<?php
+<?php namespace ZN\Routing;
 /**
  * ZN PHP Web Framework
  * 
@@ -9,9 +9,10 @@
  * @author  Ozan UYKUN [ozan@znframework.com]
  */
 
-class Route
+class CallbackFilter
 {
-    use ZN\Ability\Facade;
-
-    const target = 'ZN\Routing\Route';
+    public function __construct($filters, $get, $config)
+    {
+        $get();
+    }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php namespace ZN\Routing\Tests;
 /**
  * ZN PHP Web Framework
  * 
@@ -9,9 +9,13 @@
  * @author  Ozan UYKUN [ozan@znframework.com]
  */
 
-class Route
-{
-    use ZN\Ability\Facade;
+use ZN\Controller\UnitTest;
 
-    const target = 'ZN\Routing\Route';
+class Route extends UnitTest
+{
+    const unit =
+    [
+        'class'   => 'Route',
+        'methods' => []
+    ];
 }

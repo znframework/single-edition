@@ -10,19 +10,18 @@
  */
 
 use ZN\Config;
+use ZN\Request;
 use ZN\Hypertext;
-use ZN\Request\URL;
-use ZN\DataTypes\Arrays;
 
 class Masterpage
 {
-    //--------------------------------------------------------------------------------------------------------
-    // headData()
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @var string $headData
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Sets Head Data
+     * 
+     * @param array $headData
+     * 
+     * @return Masterpage
+     */
     public function headData(Array $headData) : Masterpage
     {
         Properties::$parameters['headData'] = $headData;
@@ -30,13 +29,13 @@ class Masterpage
         return $this;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // body()
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @var string $body
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Sets Body Page
+     * 
+     * @param string $head
+     * 
+     * @return Masterpage
+     */
     public function body(String $body) : Masterpage
     {
         Config::set('Masterpage', 'bodyPage', $body);
@@ -44,13 +43,13 @@ class Masterpage
         return $this;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // head()
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @var mixed $head
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Sets Head Page
+     * 
+     * @param mixed $head
+     * 
+     * @return Masterpage
+     */
     public function head($head) : Masterpage
     {
         Config::set('Masterpage', 'headPage', $head);
@@ -58,13 +57,13 @@ class Masterpage
         return $this;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // title()
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @var string $title
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Sets Page Title
+     * 
+     * @param string $title
+     * 
+     * @return Masterpage
+     */
     public function title(String $title) : Masterpage
     {
         Config::set('Masterpage', 'title', $title);
@@ -72,13 +71,13 @@ class Masterpage
         return $this;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // meta()
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @var array $meta
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Sets Meta Elements
+     * 
+     * @param array $meta
+     * 
+     * @return Masterpage
+     */
     public function meta(Array $meta) : Masterpage
     {
         Config::set('Masterpage', 'meta', $meta);
@@ -86,13 +85,13 @@ class Masterpage
         return $this;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // attributes()
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @var array $attributes
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Sets Attributes
+     * 
+     * @param array $attributes
+     * 
+     * @return Masterpage
+     */
     public function attributes(Array $attributes) : Masterpage
     {
         Config::set('Masterpage', 'attributes', $attributes);
@@ -100,13 +99,13 @@ class Masterpage
         return $this;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // content()
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @var array $content
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * page Content
+     * 
+     * @param array $content
+     * 
+     * @return Masterpage
+     */
     public function content(Array $content) : Masterpage
     {
         Config::set('Masterpage', 'content', $content);
@@ -114,13 +113,13 @@ class Masterpage
         return $this;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // bodyContent() -> 4.6.0
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @var string $content
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Body Content
+     * 
+     * @param string $content
+     * 
+     * @return Masterpage
+     */
     public function bodyContent(String $content) : Masterpage
     {
         Properties::$parameters['bodyContent'] = $content;
@@ -128,14 +127,12 @@ class Masterpage
         return $this;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // masterpage()
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @param array $randomDataVariable
-    // @param array $head
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Get Masterpage
+     * 
+     * @param array $randomDataVariable = NULL
+     * @param array $head               = NULL
+     */
     public function use(Array $randomDataVariable = NULL, Array $head = NULL)
     {
         if( ! empty(Properties::$parameters['headData']) ) $head               = Properties::$parameters['headData'];
@@ -189,13 +186,9 @@ class Masterpage
         echo $randomFooterVariable;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // Protected Content Charset
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @params
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Protected Content Charset
+     */
     protected function _contentCharset($contentCharset)
     {
         $header = NULL;
@@ -215,58 +208,42 @@ class Masterpage
         return $header;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // Protected Content Language
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @params
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Protected Content Language
+     */
     protected function _contentLanguage($contentLanguage)
     {
         return '<meta http-equiv="Content-Language" content="'.$contentLanguage .'">'.EOL;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // Protected Bg Image
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @params
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Protected Background Image
+     */
     protected function _bgImage($backgroundImage)
     {
         $bgImage = ( ! empty($backgroundImage) && is_file($backgroundImage) )
-                 ? ' background="'.URL::base($backgroundImage).'" bgproperties="fixed"'
+                 ? ' background="'.Request::getBaseURL($backgroundImage).'" bgproperties="fixed"'
                  : '';
                  
         return $bgImage;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // Protected Browser Icon
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @params
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Protected Browser Icon
+     */
     protected function _browserIcon($browserIcon)
     {
         if( ! empty($browserIcon) && is_file($browserIcon) )
         {
-           return '<link rel="shortcut icon" href="'.URL::base($browserIcon).'" />'.EOL;
+           return '<link rel="shortcut icon" href="'.Request::getBaseURL($browserIcon).'" />'.EOL;
         }
 
         return NULL;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // Protected Title
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @params
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Protected Title
+     */
     protected function _title($title)
     {      
         if( ! empty($title) )
@@ -277,13 +254,9 @@ class Masterpage
         return NULL;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // Protected Meta
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @params
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Protected Meta Data
+     */
     protected function _meta($metas, $headMeta)
     {
         if( $headMeta !== NULL )
@@ -323,16 +296,12 @@ class Masterpage
         return $header;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // Protected Theme
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @params
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Protected Theme
+     */
     protected function _theme($masterPageSet, $head, $type = 'theme')
     {
-        $theme = Arrays\RemoveElement::element(array_merge((array) ($masterPageSet[$type]['name'] ?? []), (array) ($head[$type]['name'] ?? [])), '');
+        $theme = array_diff(array_merge((array) ($masterPageSet[$type]['name'] ?? []), (array) ($head[$type]['name'] ?? [])), ['']);
 
         if( ! empty($theme) )
         {   
@@ -342,13 +311,9 @@ class Masterpage
         return NULL;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // Protected Links
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @params
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Protected Links
+     */
     protected function _links($masterPageSet, $head, $type)
     {
         $header = '';
@@ -392,27 +357,23 @@ class Masterpage
         return $header;
     }
 
-    //--------------------------------------------------------------------------------------------------------
-    // Protected Set Page
-    //--------------------------------------------------------------------------------------------------------
-    //
-    // @param mixed $page
-    //
-    //--------------------------------------------------------------------------------------------------------
+    /**
+     * Protected Set Page
+     */
     protected function _setpage($page)
     {
         if( ! empty($page) )
         {
             $return = '';
 
-            // Tek bir üst sayfa kullanımı için.
+            # Single Masterpage
             if( ! is_array($page) )
             {
                 $return .= View::use($page, NULL, true).EOL;
             }
             else
             {
-                // Birden fazla üst sayfa kullanımı için.
+                # Multiple Masterpage
                 foreach( $page as $p )
                 {
                     $return .= View::use($p, NULL, true).EOL;

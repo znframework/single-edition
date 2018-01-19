@@ -1,4 +1,4 @@
-<?php
+<?php namespace ZN\Routing;
 /**
  * ZN PHP Web Framework
  * 
@@ -9,9 +9,12 @@
  * @author  Ozan UYKUN [ozan@znframework.com]
  */
 
-class Route
+trait PropertyCreatorTrait
 {
-    use ZN\Ability\Facade;
+    public function __call($method, $parameters)
+    {
+        $this->filters[strtolower($method)] = $parameters[0] ?? true;
 
-    const target = 'ZN\Routing\Route';
+        return $this;
+    }
 }

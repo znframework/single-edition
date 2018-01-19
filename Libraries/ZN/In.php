@@ -9,11 +9,6 @@
  * @author  Ozan UYKUN [ozan@znframework.com]
  */
 
-use ZN\Request\URL;
-use ZN\Request\URI;
-use ZN\Request\Http;
-use ZN\Helpers\Logger;
-use ZN\DataTypes\Strings;
 use ZN\ErrorHandling\Errors;
 use ZN\Inclusion\Project\View;
 use ZN\Inclusion\Project\Masterpage;
@@ -86,9 +81,9 @@ class In
 
             if( ! empty($requestMethod = $requestMethods[CURRENT_CFURI] ?? NULL) )
             {
-                if( Http::isRequestMethod(...(array) $requestMethod) === $bool )
+                if( Request::isMethod(...(array) $requestMethod) === $bool )
                 {
-                    Singleton::class('ZN\Response\Route')->redirectInvalidRequest();
+                    Singleton::class('ZN\Routing\Route')->redirectInvalidRequest();
                 }
             }
         }
@@ -109,11 +104,11 @@ class In
 
             if( ! empty($containers[_CURRENT_PROJECT]) )
             {
-                return md5(URL::base(strtolower($containers[_CURRENT_PROJECT])) . $fix);
+                return md5(Request::getBaseURL(strtolower($containers[_CURRENT_PROJECT])) . $fix);
             }
         }
 
-        return md5(URL::base(strtolower(CURRENT_PROJECT)) . $fix);
+        return md5(Request::getBaseURL(strtolower(CURRENT_PROJECT)) . $fix);
     }
 
     /**
@@ -154,7 +149,7 @@ class In
      */
     public static function requestURI() : String
     {
-        $requestUri = URI::active();
+        $requestUri = Request::getActiveURL();
         $requestUri = self::cleanInjection(self::routeURI(rtrim($requestUri, '/')));
 
         return (string) $requestUri;
@@ -200,7 +195,7 @@ class In
                 require $file;
             }
 
-            Singleton::class('ZN\Response\Route')->all();
+            Singleton::class('ZN\Routing\Route')->all();
         }
     }
 
@@ -313,7 +308,7 @@ class In
             echo $benchResult;
 
             # Report log
-            Logger::report('Benchmarking Test Result', $benchResult, 'BenchmarkTestResults');
+            Helper::report('Benchmarking Test Result', $benchResult, 'BenchmarkTestResults');
         }
 
         # The layer that came in after the whole system.
@@ -368,7 +363,7 @@ class In
         $controllerPath  = ! empty($controllerEx[0]) ? $controllerEx[0] : '';
         $controllerFunc  = ! empty($controllerEx[1]) ? $controllerEx[1] : 'main';
         $controllerFile  = CONTROLLERS_DIR . Base::suffix($controllerPath, '.php');
-        $controllerClass = Strings\Split::divide($controllerPath, '/', -1);
+        $controllerClass = Datatype::divide($controllerPath, '/', -1);
 
         if( is_file($controllerFile) )
         {
@@ -381,7 +376,7 @@ class In
 
             if( ! is_callable([$controllerClass, $controllerFunc]) )
             {
-                Logger::report('Error', Lang::select('Error', 'callUserFuncArrayError', $controllerFunc), 'SystemCallUserFuncArrayError');
+                Helper::report('Error', Lang::select('Error', 'callUserFuncArrayError', $controllerFunc), 'SystemCallUserFuncArrayError');
 
                 throw new Exception('Error', 'callUserFuncArrayError', $controllerFunc);
             }
@@ -411,8 +406,8 @@ class In
 
             $return = $startingControllerClass->$controllerFunc(...$param);
 
-            self::$view[]       = array_merge((array) $startingControllerClass->view, View::$data);
-            self::$masterpage[] = array_merge((array) $startingControllerClass->masterpage, Masterpage::$data);
+            self::$view[]       = View::$data;
+            self::$masterpage[] = Masterpage::$data;
         }
         else
         {

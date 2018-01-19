@@ -9,9 +9,6 @@
  * @author  Ozan UYKUN [ozan@znframework.com]
  */
 
-use ZN\Helpers\Logger;
-use ZN\DataTypes\Arrays;
-
 class Console
 {
     /**
@@ -44,9 +41,9 @@ class Console
      */
     public static function run($commands)
     {
-        Logger::report('TerminalCommands', implode(' ', $commands), 'TerminalCommands');
+        Helper::report('TerminalCommands', implode(' ', $commands), 'TerminalCommands');
 
-        $realCommands = implode(' ', Arrays\RemoveElement::first($commands, 3));
+        $realCommands = implode(' ', self::arrayRemoveFirst($commands, 3));
 
         array_shift($commands);
 
@@ -62,10 +59,10 @@ class Console
 
         if( $command === NULL )
         {
-            self::_commandList(); exit;
+            new Commands\CommandList; exit;
         }
 
-        self::$parameters = Arrays\RemoveElement::first($commands, 4);
+        self::$parameters = self::arrayRemoveFirst($commands, 4);
 
         switch( $command )
         {
@@ -108,5 +105,24 @@ class Console
                 new Commands\TerminalCommand($realCommands);
             }
         }
+    }
+
+    /**
+     * Array Remove First
+     * 
+     * @param array & $array
+     * @param int     $count = 1
+     * 
+     * @return array
+     * 
+     */
+    protected static function arrayRemoveFirst(Array $array, Int $count = 1) : Array
+    {
+        for( $i = 0; $i < $count; $i++ )
+        {
+            array_shift($array);
+        }
+
+        return $array;
     }
 }

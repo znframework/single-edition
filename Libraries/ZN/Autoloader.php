@@ -9,8 +9,6 @@
  * @author  Ozan UYKUN [ozan@znframework.com]
  */
 
-require ZEROCORE . 'Functions.php';
-
 class Autoloader
 {
     /**
@@ -742,7 +740,7 @@ class Autoloader
 
             # 5.0.3[edited]
             # QUERY_STRING & REQUEST URI Empty Control
-            if( empty($currentPath) && ($requestUri = Base::server('requestUri')) !== '/' )
+            if( empty($currentPath) && ($requestUri = ($_SERVER['REQUEST_URI'] ?? false)) !== '/' )
             {
                 $currentPath = $requestUri;
             }
@@ -785,9 +783,9 @@ class Autoloader
     */
     protected static function isWritable(String $path)
     {
-        if( is_file($path) && ! is_writable($path) && \IS::software() === 'apache' )
+        if( is_file($path) && ! is_writable($path) && IS::software() === 'apache' )
         {   
-            trace
+            Base::trace
             (
                 'Please check the [file permissions]. Click the 
                     <a target="_blank" style="text-decoration:none" href="https://docs.znframework.com/getting-started/installation-instructions#sh42">
