@@ -1,0 +1,61 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "3975b6c5ff6e8b3583af92c3e799b2c7",
+    "packages": [
+        {
+            "name": "znframework/package-zerocore",
+            "version": "5.0.04",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/znframework/package-zerocore.git",
+                "reference": "75ba8f9290072e2060b2561d764616db4afdb5ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/znframework/package-zerocore/zipball/75ba8f9290072e2060b2561d764616db4afdb5ae",
+                "reference": "75ba8f9290072e2060b2561d764616db4afdb5ae",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ZN\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ozan Uykun",
+                    "email": "ozan@znframework.com"
+                }
+            ],
+            "description": "ZN Framework Core Package",
+            "homepage": "https://znframework.com",
+            "keywords": [
+                "zerocore",
+                "znframework"
+            ],
+            "time": "2018-01-20T07:53:50+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.0.0"
+    },
+    "platform-dev": []
+}

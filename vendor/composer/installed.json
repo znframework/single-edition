@@ -1,0 +1,45 @@
+[
+    {
+        "name": "znframework/package-zerocore",
+        "version": "5.0.04",
+        "version_normalized": "5.0.04.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/znframework/package-zerocore.git",
+            "reference": "75ba8f9290072e2060b2561d764616db4afdb5ae"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/znframework/package-zerocore/zipball/75ba8f9290072e2060b2561d764616db4afdb5ae",
+            "reference": "75ba8f9290072e2060b2561d764616db4afdb5ae",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.0.0"
+        },
+        "time": "2018-01-20T07:53:50+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "ZN\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ozan Uykun",
+                "email": "ozan@znframework.com"
+            }
+        ],
+        "description": "ZN Framework Core Package",
+        "homepage": "https://znframework.com",
+        "keywords": [
+            "zerocore",
+            "znframework"
+        ]
+    }
+]

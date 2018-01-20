@@ -19,7 +19,7 @@
 |
 */
 
-require_once __DIR__ . '/Libraries/ZN/ZN.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
