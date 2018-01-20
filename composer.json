@@ -1,7 +1,7 @@
 {
     "name": "znframework/single-edition",
     "type": "project",
-    "description": "ZN Framework EIP",
+    "description": "ZN Framework Single Edition",
     "keywords": ["zn","zeroneed"],
     "homepage": "https://github.com/znframework/single-edition",
     "license": "MIT",
