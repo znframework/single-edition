@@ -30,4 +30,4 @@ require __DIR__ . '/vendor/autoload.php';
 |
 */
 
-ZN\ZN::run('SE');
+ZN\ZN::run('SE', '5.5.0', 'Nikola Tesla');
