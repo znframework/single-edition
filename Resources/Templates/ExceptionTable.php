@@ -23,12 +23,14 @@ unset($trace['params']);
             
                 foreach( $trace as $key => $debug )
                     if
-                    ( 
-                        ! empty($debug['file'])                  &&
-                        ! strstr($debug['file'], 'zeroneed.php') &&
-                        ! strstr($debug['file'], 'zerocore.php') &&
-                        ! strstr($debug['file'], 'Facade.php')   &&
-                        ! strstr($debug['file'], 'ZN.php')       &&
+                    (   
+                        is_array($debug)                          &&
+                        ! empty($debug['file'])                   &&
+                        ! strstr($debug['file'], 'zeroneed.php')  &&
+                        ! strstr($debug['file'], 'zerocore.php')  &&
+                        ! strstr($debug['file'], 'Facade.php')    &&
+                        ! strstr($debug['file'], 'ZN.php')        &&
+                        ! strstr($debug['file'], 'Singleton.php') &&
                         $debug['file'] !== $file                         
                     )
                     ZN\ErrorHandling\Exceptions::display($debug['file'], $debug['line'], $key);
