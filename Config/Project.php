@@ -142,20 +142,7 @@
     */
 
     'exitErrors' => [0, 2],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Invalid Parameter Error Type
-    |--------------------------------------------------------------------------
-    |
-    | Invalid parameter error display type.
-    |
-    | Options: external, internal
-    |
-    */
-
-    'invalidParameterErrorType' => 'external',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Restoration
