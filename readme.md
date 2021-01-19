@@ -1,9 +1,15 @@
 <p align="center">
 	<img src="https://www.znframework.com/Projects/ZNWeb/Resources/Files/logo/gitlogo.png" style="max-width:300px"><br><br>
-	<a href="https://packagist.org/packages/znframework/single-edition" rel="nofollow"><img src="https://camo.githubusercontent.com/7c56351fbe5b1da656564959988b8064b41a8615/68747470733a2f2f706f7365722e707567782e6f72672f7a6e6672616d65776f726b2f73696e676c652d65646974696f6e2f762f737461626c65" alt="Latest Stable Version" data-canonical-src="https://poser.pugx.org/znframework/single-edition/v/stable" style="max-width:100%;"></a>
-	<a href="https://packagist.org/packages/znframework/single-edition" rel="nofollow"><img src="https://camo.githubusercontent.com/7c497314654627ddb49f2140aac9d1f80f76ed63/68747470733a2f2f706f7365722e707567782e6f72672f7a6e6672616d65776f726b2f73696e676c652d65646974696f6e2f762f756e737461626c65" alt="Latest Unstable Version" data-canonical-src="https://poser.pugx.org/znframework/single-edition/v/unstable" style="max-width:100%;"></a>
-	<a href="https://packagist.org/packages/znframework/single-edition" rel="nofollow"><img src="https://camo.githubusercontent.com/de39d62afcc51ff9be7082b6ea125d5573e6468c/68747470733a2f2f706f7365722e707567782e6f72672f7a6e6672616d65776f726b2f73696e676c652d65646974696f6e2f6c6963656e7365" alt="License" data-canonical-src="https://poser.pugx.org/znframework/single-edition/license" style="max-width:100%;"></a>
 </p>
+
+[![License](https://img.shields.io/github/license/znframework/znframework?style=flat-square)](//packagist.org/packages/znframework/single-edition) 
+[![Latest Stable Version](https://img.shields.io/github/v/release/znframework/single-edition?style=flat-square)](//packagist.org/packages/znframework/single-edition) 
+[![Release Date](https://img.shields.io/github/release-date/znframework/fullpack-edition?style=flat-square)](//packagist.org/packages/znframework/single-edition) 
+[![Language](https://img.shields.io/github/languages/top/znframework/znframework?style=flat-square)](//packagist.org/packages/znframework/single-edition)
+[![Code Size](https://img.shields.io/github/languages/code-size/znframework/fullpack-edition?style=flat-square)](//packagist.org/packages/znframework/single-edition) 
+[![Total Lines](https://img.shields.io/tokei/lines/github/znframework/fullpack-edition?style=flat-square)](//packagist.org/packages/znframework/single-edition) 
+[![Contributors](https://img.shields.io/github/contributors/znframework/single-edition?style=flat-square)](//packagist.org/packages/znframework/single-edition) 
+[![Docs](https://img.shields.io/readthedocs/znframework?style=flat-square)](//packagist.org/packages/znframework/znframework) 
 
 <h2># What is ZN</h2>
 
