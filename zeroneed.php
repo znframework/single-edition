@@ -19,7 +19,7 @@
 |
 */
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/Libraries/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +30,4 @@ require __DIR__ . '/vendor/autoload.php';
 |
 */
 
-ZN\ZN::run('SE', '6.1.0', 'Mustafa Kemal Atatürk');
+ZN\ZN::run('SE', '6.1.1', 'Mustafa Kemal Atatürk');
