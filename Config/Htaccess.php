@@ -58,7 +58,8 @@
     'settings' =>
     [
         'IfModule mod_headers.c'                              => ['Options -Indexes'],
-	    'FilesMatch "^(?i:docker\-compose\.yml|Dockerfile)$"' => ['deny from all']
+	    'FilesMatch "^(?i:docker\-compose\.yml|Dockerfile)$"' => ['deny from all'],
+        'RedirectMatch 403 /(Butchery|Commands|Config|Controllers|Databases|Languages|Libraries|Routes|Starting|Storage|Views)/.*$'
 
         //'IfModule mod_rewrite.c'  =>
         //[
