@@ -1,6 +1,6 @@
 {
     "name": "znframework/single-edition",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "type": "project",
     "description": "ZN Framework Single Edition",
     "keywords": ["zn","zeroneed"],
@@ -61,6 +61,6 @@
     "scripts": 
     {
         "post-create-project-cmd": ["php zerocore generate-project-key"],
-        "build": ["docker-compose up"]
+        "build": ["composer create-project znframework/software-drivers", "php zerocore export-docker-container php8.0-apache-full", "docker-compose up"]
     }
 }
