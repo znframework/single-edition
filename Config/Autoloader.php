@@ -57,10 +57,11 @@
 
     'aliases' => 
     [
-        # ZN
-        'ZN'                     => 'ZN\ZN',
-        'Project\Controllers\ZN' => 'ZN\ZN',
-        'StaticAccess'           => 'ZN\StaticAccess',
+        # ZN\ZN
+        'ZN' => 'ZN\ZN',
+
+        # ZN\StaticAccess
+        'StaticAccess' => 'ZN\StaticAccess',
         
         # ZN\Request
         'Http'    => 'ZN\Request\Http',
@@ -68,17 +69,29 @@
         'Request' => 'ZN\Request\Request',
         'Post'    => 'ZN\Request\Post',
         'Get'     => 'ZN\Request\Get',
+        'Env'     => 'ZN\Request\Env',
         'Method'  => 'ZN\Request\Method',
 
         # ZN\Inclusion\Projection
         'Project\Controllers\Masterpage' => 'ZN\Inclusion\Project\Masterpage',
         'Project\Controllers\View'       => 'ZN\Inclusion\Project\View',
         'Project\Controllers\Theme'      => 'ZN\Inclusion\Project\Theme',
+        'Masterpage'                     => 'ZN\Inclusion\Project\Masterpage',
+        'View'                           => 'ZN\Inclusion\Project\View',
+        'Theme'                          => 'ZN\Inclusion\Project\Theme',
+        'Restoration'                    => 'ZN\Restoration',
 
         # ZN\Controller
         'Project\Controllers\Controller' => 'ZN\Controller',
 
+        # ZN\Config
+        'Config' => 'ZN\Config',
+
+        # ZN\Autoloader
+        'Autoloader' => 'ZN\Autoloader',
+
         # ZN\Database
+        'Model'          => 'ZN\Model',
         'GrandModel'     => 'ZN\Database\GrandModel',
 
         # ZN\Command
