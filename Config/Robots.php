@@ -30,9 +30,18 @@
         'allow'     => [],
         'disallow'  =>
         [
-            '/External/',
-            '/Internal/',
-            '/Projects/',
+            '/Butchery/',
+            '/Commands/',
+            '/Config/',
+            '/Controllers/',
+            '/Databases/',
+            '/Languages/',
+            '/Libraries/',
+            '/Models/',
+            '/Resources/',
+            '/Routes/',
+            '/Starting/',
+            '/Storage/',
             '/Settings/'
         ]
     ]
