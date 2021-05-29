@@ -59,15 +59,14 @@
     [
         'IfModule mod_headers.c'                              => ['Options -Indexes'],
 	    'FilesMatch "^(?i:docker\-compose\.yml|Dockerfile)$"' => ['deny from all'],
-        'RedirectMatch 403 /(Butchery|Commands|Config|Controllers|Databases|Languages|Libraries|Routes|Starting|Storage|Views)/.*$'
+        'RedirectMatch 403 /(Butchery|Commands|Config|Controllers|Databases|Languages|Libraries|Models|Routes|Starting|Storage|Views)/.*$'
 
+        # http -> https rewrite
         //'IfModule mod_rewrite.c'  =>
         //[
         //    'RewriteCond %{HTTPS} !=on',
         //    'RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]'
-        //],
-        //'IfModule mod_security.c' => ['SecFilterEngine Off', 'SecFilterScanPOST Off'],
-        //'IfModule mime_module'    => ['AddType application/x-httpd-ea-php70 .php .php7 .phtml'],
+        //]
     ],
 
     /*
