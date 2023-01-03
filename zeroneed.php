@@ -30,4 +30,4 @@ require __DIR__ . '/Libraries/autoload.php';
 |
 */
 
-ZN\ZN::run('SE', '1.5.0', 'Mustafa Kemal Atatürk');
+ZN\ZN::run('SE', '2.0.0', 'Mustafa Kemal Atatürk');
